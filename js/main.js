@@ -37,6 +37,8 @@ if (room !== '') {
 socket.on('created', function (room){
   console.log('Created room ' + room);
   isInitiator = true;
+  socket.emit('addUser', prompt('whats your name?'));
+  console.log('addUser() called...');
 });
 
 socket.on('full', function (room){
@@ -52,13 +54,41 @@ socket.on('join', function (room){
 socket.on('joined', function (room){
   console.log('This peer has joined room ' + room);
   isChannelReady = true;
+  socket.emit('addUser', prompt('whats your name?'));
 });
 
 socket.on('log', function (array){
   console.log.apply(console, array);
 });
 
+socket.on('updateChat', function(username, data){
+    $('#conversation').append(username + ' : ' + data + '<br>');
+});
 
+// on load of page
+$(function(){
+
+
+    // when the client clicks SEND
+    $('#senddata').on('click', function(){
+        var message = $('#data').val();
+        $('#data').val('');
+        // tell server to execute 'sendChat' and send along one parameter
+        socket.emit('sendChat', message);
+    });
+
+    // when the client hits ENTER on their keyboard
+    $('#data').keypress(function(e) {
+        if(e.which === 13) {
+            $(this).blur();
+            $('#senddata').focus().click();
+        }
+    });
+
+    setTimeout(hangup, 20000);
+
+
+});
 
 // ////////////////////chatchat
 // socket.on('connect', function(){
@@ -150,6 +180,7 @@ socket.on('message', function (message){
 
 var localVideo = document.querySelector('#localVideo');
 var remoteVideo = document.querySelector('#remoteVideo');
+var miniVideo = document.querySelector('#miniVideo');
 
 function handleUserMedia(stream) {
   console.log('Adding local stream.');
@@ -207,6 +238,8 @@ function createPeerConnection() {
   }
 }
 
+
+
 function handleIceCandidate(event) {
   console.log('handleIceCandidate event: ', event);
   if (event.candidate) {
@@ -224,6 +257,10 @@ function handleRemoteStreamAdded(event) {
   console.log('Remote stream added.');
   remoteVideo.src = window.URL.createObjectURL(event.stream);
   remoteStream = event.stream;
+  miniVideo.src = localVideo.src;
+  localVideo.src = remoteVideo.src;
+  $('#remoteVideo').remove();
+
 }
 
 function handleCreateOfferError(event){
@@ -289,9 +326,12 @@ function handleRemoteStreamRemoved(event) {
 
 function hangup() {
   console.log('Hanging up.');
-  stop();
+  alert('its about to be clesed');
+  setTimeout(stop, 5000);
   sendMessage('bye');
 }
+
+
 
 function handleRemoteHangup() {
 //  console.log('Session terminated.');
@@ -306,6 +346,8 @@ function stop() {
   pc.close();
   pc = null;
 }
+
+
 
 ///////////////////////////////////////////
 
@@ -383,4 +425,10 @@ function removeCN(sdpLines, mLineIndex) {
   sdpLines[mLineIndex] = mLineElements.join(' ');
   return sdpLines;
 }
+
+
+
+
+
+
 
