@@ -85,7 +85,7 @@ $(function(){
         }
     });
 
-    setTimeout(hangup, 20000);
+    //setTimeout(hangup, 20000);
 
 
 });
@@ -326,8 +326,8 @@ function handleRemoteStreamRemoved(event) {
 
 function hangup() {
   console.log('Hanging up.');
-  alert('its about to be clesed');
-  setTimeout(stop, 5000);
+  // alert('its about to be clesed');
+  // setTimeout(stop, 5000);
   sendMessage('bye');
 }
 

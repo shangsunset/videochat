@@ -34,14 +34,14 @@ body, html{
 }
 
 #remoteVideo{
-	position: absolute;
-	bottom: 0px;
+	position: relative;
+	bottom: 200px;
 }
 
 #miniVideo{
-	position: absolute;
-	bottom: 0;
-	right: 300px;
+	position: relative;
+	bottom: 150px;
+	right: 30px;
 	width: 150px;
 	height: 150px;
 	z-index: 1;
