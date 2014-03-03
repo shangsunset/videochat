@@ -79,61 +79,38 @@ $(function(){
 
     // when the client hits ENTER on their keyboard
     $('#data').keypress(function(e) {
+
+      if (!$("#data").val()) { 
+      $("#senddata").attr("disabled", "disabled");
+      }
+      else {
+      $("#senddata").attr("enabled", "enabled");
+      
+
+
         if(e.which === 13) {
+
             $(this).blur();
-            $('#senddata').focus().click();
+            $('#senddata').focus().click().blur();
+            $(this).focus();
         }
-    });
+      }
+
+
+
+
+ });
+
+
+var videoHeight = document.body.scrollHeight;
+$('#localVideo').css('height', videoHeight);
+
+    
 
     //setTimeout(hangup, 20000);
 
 
 });
-
-// ////////////////////chatchat
-// socket.on('connect', function(){
-//     socket.emit('addUser', prompt('whats your name?'));
-// });
-
-// socket.on('updateChat', function(username, data){
-//     $('#conversation').prepend(username + ' : ' + data + '<br>');
-// });
-
-// socket.on('updateUser', function(users){
-//    $('#users').empty();
-//     $.each(users, function(name){
-//         $('#users').append('<div>' + name + '</div>');
-//     });
-
-// });
-// // on load of page
-// $(function(){
-//     // when the client clicks SEND
-//     $('#datasend').click( function() {
-//         var message = $('#data').val();
-//         $('#data').val('');
-//         // tell server to execute 'sendChat' and send along one parameter
-//         socket.emit('sendChat', message);
-//     });
-
-//     // when the client hits ENTER on their keyboard
-//     $('#data').keypress(function(e) {
-//         if(e.which === 13) {
-//             $(this).blur();
-//             $('#datasend').focus().click();
-//         }
-//     });
-
-
-// });
-// /////////////////////chatchat
-
-
-
-
-
-
-
 
 
 
@@ -181,6 +158,8 @@ socket.on('message', function (message){
 var localVideo = document.querySelector('#localVideo');
 var remoteVideo = document.querySelector('#remoteVideo');
 var miniVideo = document.querySelector('#miniVideo');
+
+
 
 function handleUserMedia(stream) {
   console.log('Adding local stream.');
@@ -231,6 +210,8 @@ function createPeerConnection() {
     pc.onaddstream = handleRemoteStreamAdded;
     pc.onremovestream = handleRemoteStreamRemoved;
     console.log('Created RTCPeerConnnection');
+    var startTime = new Date();
+    console.log('the start time of this chat session is: ' + startTime);
   } catch (e) {
     console.log('Failed to create PeerConnection, exception: ' + e.message);
     alert('Cannot create RTCPeerConnection object.');
@@ -314,11 +295,6 @@ function requestTurn(turn_url) {
   }
 }
 
-//function handleRemoteStreamAdded(event) {
-//  console.log('Remote stream added.');
-//  remoteVideo.src = window.URL.createObjectURL(event.stream);
-//  remoteStream = event.stream;
-//}
 
 function handleRemoteStreamRemoved(event) {
   console.log('Remote stream removed. Event: ', event);
@@ -326,8 +302,9 @@ function handleRemoteStreamRemoved(event) {
 
 function hangup() {
   console.log('Hanging up.');
-  // alert('its about to be clesed');
-  // setTimeout(stop, 5000);
+  var endTime = new Date();
+  console.log('the end time of this chat session is: ' + endTime);
+  stop();
   sendMessage('bye');
 }
 
