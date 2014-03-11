@@ -1,9 +1,11 @@
 {
-     "name": "developer",
+     "name": "videochat",
      "description": "example chat application with socket.io",
      "version": "0.0.1",
      "dependencies": {
-        "express": "latest",
-        "socket.io": "latest"
+
+        "socket.io": "latest",
+        "node-static": "latest",
+        "mysql": "latest"
      }
 }
