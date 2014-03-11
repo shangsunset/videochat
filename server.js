@@ -1,11 +1,57 @@
 var static = require('node-static');
 var http = require('http');
+var mysql = require('mysql');
 var file = new(static.Server)();
 var app = http.createServer(function (req, res) {
   file.serve(req, res);
 
 }).listen(8888);
+console.log('server running...');
 
+var db_config = {
+  host: 'localhost',
+    user: 'root',
+    password: 'root',
+    database: 'test'
+};
+var connection = mysql.createConnection(db_config);
+connection.connect(function (error) {
+	if(error){
+		console.log('error message: ' + error);
+	}
+	else{
+		console.log('database connected');
+	}
+});
+
+var use_db = 'use test';
+connection.query(use_db, function (error) {
+		if(error){
+			console.log('error message: ' + error);
+		}
+		else{
+			console.log('changed to ' + db_config.database);
+		}
+		
+	});
+
+
+
+
+var select = 'select*from chat_session';
+connection.query(select, function (error, rows, fields) {
+		if(error){
+			console.log('error message: ' + error);
+		}
+		else{
+			for(var i in rows)
+			console.log(rows[i]);
+		}
+		
+	});
+					
+
+connection.end();
 
 var io = require('socket.io').listen(app);
 io.sockets.on('connection', function (socket){
@@ -63,33 +109,7 @@ io.sockets.on('connection', function (socket){
          io.sockets.emit('updateChat', socket.username, data);
      });
 
-// /////////////////////chatchat
 
-//     socket.on('addUser', function(username){
-//         // we store the username in the socket session for this client
-//         socket.username = username;
-//         //store user in usernameArray
-//         usernameArray[username] = username;
-//         //echo to the client they are connected
-//         socket.emit('updateChat', 'SERVER', 'you have connected');
-
-//         socket.broadcast.emit('updateChat', 'SERVER', username + ' has connected');
-
-//         io.sockets.emit('updateUser', usernameArray);
-
-//     });
-
-//     socket.on('sendChat', function(data){
-//         io.sockets.emit('updateChat', socket.username, data);
-//     });
-
-//     socket.on('disconnect', function(){
-//         delete usernameArray[socket.username];
-//         io.sockets.emit('updateUser', usernameArray);
-//         socket.broadcast.emit('updateChat', 'SERVER', socket.username + ' has disconnected...');
-//     });
-
-// /////////////////////////chatchat
 
 
 		socket.emit('emit(): client ' + socket.id + ' joined room ' + room);
