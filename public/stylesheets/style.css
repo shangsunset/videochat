@@ -1,0 +1,76 @@
+html,body{
+	height:100%;
+	font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+
+.container-fluid{
+    height: 100%;
+    padding: 0;
+}
+
+.row {
+    height: 100%;
+    margin: 0;
+
+}
+
+
+
+.videoContainer {
+    position: relative;
+    height: 100%;
+    border: 1px solid Black;
+    padding: 0;
+}
+
+
+#localVideo {
+    
+    height: 100%;
+    width: 100%;
+    position: absolute;
+
+}
+
+#miniVideo {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    
+    height: 180px;
+    width: 200px;
+}
+
+#remoteVideo {
+    position: absolute;
+    bottom: 0;
+    
+    height: 200px;
+}
+
+
+.chatContainer {
+    position: relative;
+    border: 1px solid Black;
+    height: 100%;
+    padding: 0px 0px;
+    
+}
+
+#conversation {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    
+    height: 70%;
+     
+}
+
+.chatBox {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    
+    height: 30%;
+}
