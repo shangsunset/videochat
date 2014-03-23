@@ -1,6 +1,5 @@
 "use strict";
 
-
 var isChannelReady;
 var isInitiator = false;
 var isStarted = false;
@@ -20,17 +19,19 @@ var sdpConstraints = {'mandatory': {
 
 /////////////////////////////////////////////
 
-var room = location.pathname.substring(1);
-if (room === '') {
-//  room = prompt('Enter room name:');
-  room = 'foo';
-} else {
-  //
-}
+var room = $('#roomName span').text();
+
+// var room = location.pathname.substring(1);
+// if (room === '') {
+// //  room = prompt('Enter room name:');
+//   room = 'foo';
+// } else {
+//   //
+// }
 
 var socket = io.connect();
 
-if (room !== '') {
+if (room) {
   console.log('Create or join room', room);
   socket.emit('create or join', room);
 }
@@ -38,14 +39,15 @@ if (room !== '') {
 socket.on('created', function (room){
   console.log('Created room ' + room);
   isInitiator = true;
-  socket.emit('addUser', 'Hey');  //prompt('whats your name?')
-  console.log('addUser() called...');
+  socket.emit('addUser', 'john');  //prompt('whats your name?')
+  console.log('addUser() called in crated...');
+
 });
 
 socket.on('full', function (room){
   console.log('Room ' + room + ' is full');
 });
-
+  
 socket.on('join', function (room){
   console.log('Another peer made a request to join room ' + room);
   console.log('This peer is the initiator of room ' + room + '!');
@@ -55,7 +57,8 @@ socket.on('join', function (room){
 socket.on('joined', function (room){
   console.log('This peer has joined room ' + room);
   isChannelReady = true;
-  socket.emit('addUser', 'Yo'); //prompt('whats your name?')
+  socket.emit('addUser', 'eric'); //prompt('whats your name?')
+  console.log('addUser() called in joined...');
 });
 
 socket.on('log', function (array){
@@ -67,7 +70,34 @@ socket.on('updateChat', function(username, data){
     var conversation = document.getElementById('conversation');
     conversation.scrollTop = conversation.scrollHeight;
 
+
+
 });
+
+socket.on('updateUser', function(users){
+   // $('#users').empty();
+    $.each(users, function(username){
+      users[username] = username;
+    });
+
+    console.log('obj size: ' + objectSize(users));
+    console.log(JSON.stringify(users));
+   
+  
+
+});
+
+function objectSize(the_object) {
+  /* function to validate the existence of each key in the object to get the number of valid keys. */
+  var object_size = 0;
+  for (var key in the_object){
+    if (the_object.hasOwnProperty(key)) {
+      object_size++;
+    }
+  }
+  return object_size;
+}
+   
 
 function sendMessage(message){
   // console.log('Client sending message: ', message);

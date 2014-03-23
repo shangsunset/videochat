@@ -4,12 +4,12 @@ $(function(){
 
 
     // when the client hits ENTER on their keyboard
-  $('.textContent').keypress(function(e) {
+$('.textContent').keypress(function(e) {
 
   if(e.which === 13) {
     e.preventDefault();
 
-    if ($(".textContent").val().trim().length == 0){
+    if ($(".textContent").val().trim().length === 0){
       $(".sendContent").attr("disabled", "disabled");
     }
     else{
@@ -19,10 +19,19 @@ $(function(){
     // tell server to execute 'sendChat' and send along one parameter
     socket.emit('sendChat', message);
   }
-            
-}  
+}
 
- });
+});
+
+
+
+
+
+
+
+
+
+
 
 });
 

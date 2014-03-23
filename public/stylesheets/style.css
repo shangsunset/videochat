@@ -20,8 +20,10 @@ html,body{
 .videoContainer {
     position: relative;
     height: 100%;
-    border: 1px solid Black;
+
     padding: 0;
+    background: black;
+    
 }
 
 
@@ -36,10 +38,10 @@ html,body{
 #miniVideo {
     position: absolute;
     bottom: 0;
-    right: 0;
+    right: 40px;
     
-    height: 180px;
-    width: 200px;
+    height: 150px;
+    width: 150px;
 }
 
 #remoteVideo {
@@ -52,7 +54,6 @@ html,body{
 
 .chatContainer {
     position: relative;
-    border: 1px solid Black;
     height: 100%;
     padding: 0px 0px;
     
