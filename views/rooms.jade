@@ -2,14 +2,20 @@ extends layout
 block content
 
 
-	table(class="displayRooms")
-		tr
-			th Room ID
-			th Room Name
-			
-		each item in rooms
+	div.table-responsive
+		table.table.table-hover.displayRooms			
 			tr
-				td #{item.id}
-				td 
-					a(href="/rooms/videochat/#{item.roomName}") #{item.roomName}
+				th Room Number
+				th Room Name
+				th User Created
+				
+			each item in rooms			
+				tr
+					td #{item.id}
+					td 
+						a(href="/rooms/videochat/#{item.roomName}") #{item.roomName}
+					td 
+					td 
+				
+
 				

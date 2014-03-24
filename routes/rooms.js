@@ -1,5 +1,5 @@
 var util = require('util');
-var db = require('./../db.js');
+var db = require('./../config/database.js');
 
 exports.list = function(req, res){
 	res.render('rooms', {
@@ -20,3 +20,5 @@ exports.createRoom = function (req, res) {
 	req.session.roomName = req.body.roomName;
 	res.redirect('rooms/videochat/' + req.session.roomName);
 };
+
+

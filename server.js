@@ -8,21 +8,32 @@ var rooms = require('./routes/rooms.js');
 var http = require('http');
 var path = require('path');
 var app = express();
-var mysql = require('mysql');
+var passport = require('passport');
+// var mysql = require('mysql');
 
-var connection = mysql.createConnection({
-	host: 'localhost',
-	user: 'root',
-	password: 'root'
-});
 
-connection.connect(function (error) {
-	if (error) {
-		console.log('error message: ' + error);
-	} else{
-		console.log('connected sucessfully!');
-	}
-});
+
+// var connection = mysql.createConnection({
+// 	host: 'localhost',
+// 	user: 'root',
+// 	password: 'root'
+// });
+
+
+// connection.connect(function (error) {
+// 	if (error) {
+// 		console.log('error message: ' + error);
+// 	} else{
+// 		console.log('connected sucessfully!');
+// 		connection.query('use test;', function (error, results) {
+// 			console.log(results);
+// 		});
+		
+			
+// 	}
+// });
+var configDB = require('./config/database.js');
+configDB.db();
 
 
 
@@ -36,7 +47,7 @@ app.use(express.logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.cookieParser());
-app.use(express.session({secret: 'this is a secret', expires: new Date(Date.now() + (20000))}));
+app.use(express.session({secret: 'this is a secret'}));
 app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
@@ -52,7 +63,6 @@ app.get('/addRoom', rooms.addRoom);
 app.get('/rooms/videochat/:roomName', function (req, res) {
 	res.render('videochat', {roomName: req.params.roomName});
 });
-app.get('/users', user.list);
 app.post('/rooms/createRoom', rooms.createRoom);
 
 

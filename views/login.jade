@@ -1,4 +1,30 @@
 extends layout
 	
 block content
-	h1 login page
+
+	.container
+		.col-sm-6.col-sm-offset-3
+		h1
+			span(class="fa fa-sign-in") Login
+
+		//- if message.length > 0
+		//- 	.alert.alert-danger
+		//- 		p message
+
+		form(action='/login', method='post' class="loginForm")
+			.form-group
+				label Email
+				input.form-control(type='text', name='email')
+			.form-group
+				label Password
+				input.form-control(type='password', name='password')
+				button.btn.btn-primary.btn-lg.loginButton(type='submit') Login
+		hr
+		p Need an account?
+			a(href='/signup')  Signup
+		
+					
+		p Or go
+			a(href='/')  Home
+
+
