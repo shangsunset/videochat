@@ -70,11 +70,11 @@ if ('development' == app.get('env')) {
 
 app.get('/', routes.login);
 app.get('/rooms', rooms.list);
-app.get('/addRoom', rooms.addRoom);
+app.get('/createroom', rooms.addRoom);
 app.get('/rooms/videochat/:roomName', function (req, res) {
 	res.render('videochat', {roomName: req.params.roomName});
 });
-app.post('/rooms/createRoom', rooms.createRoom);
+app.post('/rooms/createARoom', rooms.createARoom);
 
 
 var server = http.createServer(app).listen(app.get('port'), function(){
@@ -155,19 +155,21 @@ io.sockets.on('connection', function (socket){
         delete userList[socket.username];
         io.sockets.emit('updateUser', userList);
         socket.broadcast.emit('updateChat', 'SERVER', socket.username + ' has disconnected...');
+        
+
     });
 
 
 	
 });
 
-function objectSize(the_object) {
+function objectSize(obj) {
   /* function to validate the existence of each key in the object to get the number of valid keys. */
-  var object_size = 0;
-  for (var key in the_object){
-    if (the_object.hasOwnProperty(key)) {
-      object_size++;
+  var objSize = 0;
+  for (var key in obj){
+    if (obj.hasOwnProperty(key)) {
+      objSize++;
     }
   }
-  return object_size;
+  return objSize;
 }
