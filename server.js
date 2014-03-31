@@ -9,6 +9,10 @@ var http = require('http');
 var path = require('path');
 var app = express();
 var passport = require('passport');
+// var session = require('express-session');
+// var RedisStore = require('connect-redis')(session);
+
+
 // var mysql = require('mysql');
 
 
@@ -47,7 +51,14 @@ app.use(express.logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.cookieParser());
-app.use(express.session({secret: 'this is a secret'}));
+app.use(express.session({
+	
+	secret: "this is a secret",
+	cookie: {
+		maxAge: new Date(Date.now() + 1000*60*10)
+	}	
+}));
+
 app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
