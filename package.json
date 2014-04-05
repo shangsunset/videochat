@@ -19,7 +19,8 @@
     "connect-flash" : "~0.1.1",   
     "bcrypt-nodejs" : "latest",
     "connect-redis" : "latest",
-    "express-session" : "latest"
+    "express-session" : "latest",
+    "sequelize": "latest"
   },
   "devDependencies":{
     "nodemon": "*"

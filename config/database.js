@@ -1,26 +1,44 @@
 var mysql = require('mysql');
+var Sequelize = require('sequelize')
+  , db = new Sequelize('test', 'root', 'root', {
+      dialect: "mysql", // or 'sqlite', 'postgres', 'mariadb'
+      port:    3306, // or 5432 (for postgres)
+    })
+ 
+
 
 exports.db = function(){
 
+	db
+	  .authenticate()
+	  .complete(function(err) {
+	    if (!!err) {
+	      console.log('Unable to connect to the database:', err)
+	    } else {
+	      console.log('Connection has been established successfully.')
+	    }
+	  })
 
-var connection = mysql.createConnection({
-	host: 'localhost',
-	database: 'test',
-	user: 'root',
-	password: 'root'
-});
+require('../app/user.js')(Sequelize, db);
+
+// var connection = mysql.createConnection({
+// 	host: 'localhost',
+// 	database: 'test',
+// 	user: 'root',
+// 	password: 'root'
+// });
 
 
-connection.connect(function (error) {
-	if (error) {
-		console.log('error message: ' + error);
-	} else{
-		console.log('connected sucessfully!');
+// connection.connect(function (error) {
+// 	if (error) {
+// 		console.log('error message: ' + error);
+// 	} else{
+// 		console.log('connected sucessfully!');
 		
 		
 			
-	}
-});
+// 	}
+//});
 
 // var table_users = {
 // 	username: 'shangsunset',
