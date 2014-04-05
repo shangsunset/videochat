@@ -22,12 +22,7 @@ var sdpConstraints = {'mandatory': {
 var room = $('#roomName span').text();
 
 // var room = location.pathname.substring(1);
-// if (room === '') {
-// //  room = prompt('Enter room name:');
-//   room = 'foo';
-// } else {
-//   //
-// }
+
 
 var socket = io.connect();
 

@@ -22,18 +22,18 @@ connection.connect(function (error) {
 	}
 });
 
-var table_users = {
-	username: 'shangsunset',
-	firstname: 'Yeshen',
-	lastname: 'Shang',
-	password: '123',
-	email: 'shangsunset@gmail.com'
+// var table_users = {
+// 	username: 'shangsunset',
+// 	firstname: 'Yeshen',
+// 	lastname: 'Shang',
+// 	password: '123',
+// 	email: 'shangsunset@gmail.com'
 
-};
+// };
 
-var query = connection.query('INSERT INTO users SET ?', table_users, function(err, result) {
+// var query = connection.query('INSERT INTO users SET ?', table_users, function(err, result) {
   
-});
+// });
 
 
 
