@@ -1,11 +1,11 @@
 var mysql = require('mysql');
-var Sequelize = require('sequelize')
-  , db = new Sequelize('test', 'root', 'root', {
-      dialect: "mysql", // or 'sqlite', 'postgres', 'mariadb'
-      port:    3306, // or 5432 (for postgres)
-    })
- 
+var Sequelize = require('sequelize');
+var db = new Sequelize('test', 'root', 'root', {
+      dialect: "mysql", 
+      port:    3306
 
+})
+ 
 
 exports.db = function(){
 
@@ -22,21 +22,10 @@ exports.db = function(){
 
 
 var User = require('../app/user.js')(Sequelize, db);
+var ChatSession = require('../app/chat-session.js')(Sequelize, db);
 
-
-// var table_users = {
-// 	username: 'shangsunset',
-// 	firstname: 'Yeshen',
-// 	lastname: 'Shang',
-// 	password: '123',
-// 	email: 'shangsunset@gmail.com'
-
-// };
-
-// var query = connection.query('INSERT INTO users SET ?', table_users, function(err, result) {
-  
-// });
-
+User.hasMany(ChatSession);
+ChatSession.belongsTo(User, {foreignKey: 'user_id'});
 
 
 };
