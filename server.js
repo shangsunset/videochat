@@ -1,6 +1,4 @@
 var express = require('express');
-var routes = require('./app/routes.js');
-var user = require('./app/user.js');
 var http = require('http');
 var path = require('path');
 var app = express();
@@ -16,14 +14,6 @@ app.use(express.logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.cookieParser());
-app.use(express.session({
-	
-	secret: "this is a secret",
-	cookie: {
-		maxAge: new Date(Date.now() + 1000*60*10)
-	}	
-}));
-
 app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
@@ -35,11 +25,11 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
+// launch server ======================================================================
+
 var server = http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
-
-
 
 
 

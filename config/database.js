@@ -19,26 +19,10 @@ exports.db = function(){
 	    }
 	  })
 
-require('../app/user.js')(Sequelize, db);
-
-// var connection = mysql.createConnection({
-// 	host: 'localhost',
-// 	database: 'test',
-// 	user: 'root',
-// 	password: 'root'
-// });
 
 
-// connection.connect(function (error) {
-// 	if (error) {
-// 		console.log('error message: ' + error);
-// 	} else{
-// 		console.log('connected sucessfully!');
-		
-		
-			
-// 	}
-//});
+var User = require('../app/user.js')(Sequelize, db);
+
 
 // var table_users = {
 // 	username: 'shangsunset',
@@ -55,28 +39,6 @@ require('../app/user.js')(Sequelize, db);
 
 
 
-
-
-
 };
 
 
-// var roomsDB = {};
-// var id = 0;
-
-// exports.listRooms = function () {
-// 	return roomsDB;
-// };
-
-// exports.addRooms = function (room) {
-	
-// 	room.id = id;
-// 	roomsDB[room.id] = room;
-// 	id = id + 1;
-// 	console.log("from db.js: " + JSON.stringify(roomsDB[room.id]));
-
-// };
-
-// exports.getRoomById = function (id) {
-// 	return roomsDB[id];
-// };

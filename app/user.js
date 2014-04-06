@@ -11,16 +11,32 @@ module.exports = function (Sequelize, db) {
 	  
 })
 
-
+	//insert data to table after table is created
 	db
 	  .sync({ force: true })
 	  .complete(function(err) {
 	     if (!!err) {
 	       console.log('An error occurred while create the table:', err)
 	     } else {
-	       console.log('It worked!')
+	       console.log('table ' + User.tableName + ' created!');
+	        User
+				.create({
+					username: 'admin',
+					email: 'shangsunset@gmail.com',
+					password: '123'
+					})
+				.complete(function(err, user) {
+					/* ... */
+					
+				})
 	     }
-	  })
+	  });
+
+
+
+
+
+
 }
 
 
