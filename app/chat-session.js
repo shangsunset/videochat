@@ -1,4 +1,11 @@
-module.exports = function (Sequelize, db) {
+module.exports = function () {
+
+	var Sequelize = require('sequelize');
+	var db = new Sequelize('test', 'root', 'root', {
+      dialect: "mysql", 
+      port:    3306
+
+	})
 
 
 	var ChatSession = db.define('ChatSession', {
@@ -20,8 +27,8 @@ module.exports = function (Sequelize, db) {
 			session_id: function () {
 				return this.getDataValue('session_id');
 			},
-			uid: function () {
-				return this.getDataValue('uid');
+			user_id: function () {
+				return this.getDataValue('user_id');
 			},
 			start_time: function () {
 				return this.getDataValue('start_time');
@@ -44,7 +51,7 @@ module.exports = function (Sequelize, db) {
 			if (!!err) {
 		       console.log('An error occurred while create the table:', err)
 		    } else {
-		       console.log('table ' + ChatSession.tableName + ' created!');
+		       console.log('table ' + ChatSession.tableName + ' synced!');
 		    }
 		})
 

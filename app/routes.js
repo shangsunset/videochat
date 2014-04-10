@@ -8,6 +8,11 @@ module.exports = function (app, passport) {
 		res.render('login.jade');
 	});
 
+	app.get('/signup', function (req, res) {
+		res.render('signup.jade');
+	});
+
+
 	app.get('/rooms', rooms.list);
 	app.get('/createroom', rooms.addRoom);
 
@@ -15,18 +20,29 @@ module.exports = function (app, passport) {
 		res.render('videochat.jade', {roomName: req.params.roomName});
 	});
 
-	app.post('/login',
-	  passport.authenticate('local'),
-	  function(req, res) {
-	    // If this function gets called, authentication was successful.
-	    // `req.user` contains the authenticated user.
-	    res.redirect('/createroom' + req.user.username);
-	  });
-
-
-
 	app.post('/rooms/createARoom', rooms.createARoom);
 
+
+	
+	//process the signup form
+	app.post('/signup', passport.authenticate('local-signup', {
+		successRedirect : '/', // redirect to the secure profile section
+		failureRedirect : '/signup', // redirect back to the signup page if there is an error
+		failureFlash : true // allow flash messages
+	}));
+
+
+
+	// process the login form
+	app.post('/login', passport.authenticate('local-login', {
+		successRedirect : '/createroom', // redirect to the secure profile section
+		failureRedirect : '/', // redirect back to the signup page if there is an error
+		failureFlash : true // allow flash messages
+	}));
+
+
+
+	
 
 };
 

@@ -1,13 +1,21 @@
 var mysql = require('mysql');
-var Sequelize = require('sequelize');
-var db = new Sequelize('test', 'root', 'root', {
+// var Sequelize = require('sequelize');
+// var db = new Sequelize('test', 'root', 'root', {
+//       dialect: "mysql", 
+//       port:    3306
+
+// })
+ 
+
+module.exports = function(){
+
+	var Sequelize = require('sequelize');
+	var db = new Sequelize('test', 'root', 'root', {
       dialect: "mysql", 
       port:    3306
 
-})
- 
+	})
 
-exports.db = function(){
 
 	db
 	  .authenticate()
@@ -20,9 +28,14 @@ exports.db = function(){
 	  })
 
 
+	 
 
-var User = require('../app/user.js')(Sequelize, db);
-var ChatSession = require('../app/chat-session.js')(Sequelize, db);
+
+
+
+
+var User = require('../app/user.js')();
+var ChatSession = require('../app/chat-session.js')();
 
 User.hasMany(ChatSession);
 ChatSession.belongsTo(User, {foreignKey: 'user_id'});
