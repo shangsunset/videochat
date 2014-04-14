@@ -96,13 +96,12 @@ module.exports = function (passport) {
             }
 			// if the user is found but the password is wrong
             
-            console.log("user email from passpart: " + user.email);
-            if (!User.validPassword(password, user.password))
+            if (!User.validPassword(password, user.password)){
                 console.log("wrong password");
                 console.log("user.password: " + user.password);
                 console.log("password: " + password);
                 return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.')); // create the loginMessage and save it to session as flashdata
-
+            }
             // all is well, return successful user
             return done(null, user);
         });

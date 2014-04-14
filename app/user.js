@@ -71,11 +71,15 @@ module.exports = function () {
 
 		classMethods : {
 				generateHash : function(password) {
-			    	return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+			    		 return bcrypt.hashSync(password, null, null, function (err, hash) {
+			    			return hash;
+			    	});
 				},
 				
 				validPassword : function(password, pass) {
-				    return bcrypt.compareSync(password, pass);
+				    return bcrypt.compareSync(password, pass, function (err, res) {
+				    		return res;
+				    });
 				}
 
 						
