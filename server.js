@@ -14,12 +14,12 @@ app.use(express.logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.cookieParser());
+app.use(express.methodOverride());
 // required for passport
 app.use(express.session({ secret: 'iloveplayingtennis' })); // session secret
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
-app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'app')));
@@ -40,6 +40,7 @@ var server = http.createServer(app).listen(app.get('port'), function(){
 
 // routes 
 require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
+
 //for authentication
 require('./config/passport')(passport); // pass passport for configuration
 

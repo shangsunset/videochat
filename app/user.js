@@ -17,13 +17,11 @@ module.exports = function () {
 		password: {type: Sequelize.STRING, allowNull: false}
 		// first_name: {type: Sequelize.STRING, allowNull: false},
 	 //  	last_name: {type: Sequelize.STRING, allowNull: false}
-	}, 
+	}, 	
 
 	{
-		freezeTableName: true
-	},
 
-	{
+		freezeTableName: true,
 
 		getterMethods: {
 			user_id : function () {
@@ -69,19 +67,34 @@ module.exports = function () {
 			// },
 
 
-		}
+		},
 
+		classMethods : {
+				generateHash : function(password) {
+			    	return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+				},
+				
+				validPassword : function(password) {
+				    return bcrypt.compareSync(password, this.password);
+				}
+
+						
+			}
+
+	
+
+		
 	})
 
 	
-	User.generateHash = function(password) {
-    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
-};
+	// User.generateHash = function(password) {
+ //    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+	// };
 
 	// checking if password is valid
-	User.validPassword = function(password) {
-	    return bcrypt.compareSync(password, this.password);
-	};
+	// User.validPassword = function(password) {
+	//     return bcrypt.compareSync(password, this.password);
+	// };
 
 	db
 	  .sync({ force: true })
