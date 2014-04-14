@@ -6,23 +6,23 @@
     "start": "nodemon server.js"
   },
   "dependencies": {
+    "bcrypt": "^0.7.7",
+    "connect-flash": "~0.1.1",
+    "connect-redis": "latest",
     "express": "3.4.8",
+    "express-session": "latest",
     "jade": "*",
-    "socket.io": "*",
     "mysql": "*",
     "node-static": "*",
-    "passport" : "~0.1.17",    
-    "passport-local" : "~0.1.6",  
-    "passport-facebook" : "~1.0.2", 
-    "passport-twitter" : "~1.0.2",  
-    "passport-google-oauth" : "~0.1.5",
-    "connect-flash" : "~0.1.1",   
-    "bcrypt-nodejs" : "latest",
-    "connect-redis" : "latest",
-    "express-session" : "latest",
-    "sequelize": "latest"
+    "passport": "~0.1.17",
+    "passport-facebook": "~1.0.2",
+    "passport-google-oauth": "~0.1.5",
+    "passport-local": "~0.1.6",
+    "passport-twitter": "~1.0.2",
+    "sequelize": "latest",
+    "socket.io": "*"
   },
-  "devDependencies":{
+  "devDependencies": {
     "nodemon": "*"
   }
 }

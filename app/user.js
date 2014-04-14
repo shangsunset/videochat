@@ -1,23 +1,24 @@
-var bcrypt = require('bcrypt-nodejs');
+var bcrypt = require('bcrypt');
 
 module.exports = function () {
 
 	var Sequelize = require('sequelize');
 	var db = new Sequelize('test', 'root', 'root', {
-      dialect: "mysql", 
+      dialect: "mysql",
       port:    3306
 
 	})
 
 
-	var User = db.define('User', {
+	var User = db.define('User',
+	{
 		user_id: {type: Sequelize.INTEGER, allowNull: false, autoIncrement: true, primaryKey: true},
 		// username: {type: Sequelize.STRING, allowNull: false},
 		email: {type: Sequelize.STRING, allowNull: false},
 		password: {type: Sequelize.STRING, allowNull: false}
 		// first_name: {type: Sequelize.STRING, allowNull: false},
 	 //  	last_name: {type: Sequelize.STRING, allowNull: false}
-	}, 	
+	},
 
 	{
 
@@ -51,46 +52,51 @@ module.exports = function () {
 
 		setterMethods: {
 			email: function (newEmail) {
-					this.setDataValue('email', newEmail.toString().toLowerCase());				
+					this.setDataValue('email', newEmail.toString().toLowerCase());
 			},
 
 			password: function (newPassWord) {
-					this.setDataValue('password', newPassWord.toString().toLowerCase());				
+					this.setDataValue('password', newPassWord.toString().toLowerCase());
 			}
 
 			// first_name: function (fn) {
-			// 		this.setDataValue('first_name', fn.toString().toLowerCase());				
+			// 		this.setDataValue('first_name', fn.toString().toLowerCase());
 			// },
 
 			// last_name: function (ln) {
-			// 		this.setDataValue('last_name', ln.toString().toLowerCase());				
+			// 		this.setDataValue('last_name', ln.toString().toLowerCase());
 			// },
 
 
 		},
 
 		classMethods : {
+				//remember to check for error .
 				generateHash : function(password) {
-			    		 return bcrypt.hashSync(password, null, null, function (err, hash) {
-			    			return hash;
-			    	});
+						bcrypt.genSalt(10, function(err, salt) {
+								if (err) return err;
+						    bcrypt.hash(password, salt, function(err, hash) {
+									if (err) return err;
+									return hash;
+						    });
+						});
 				},
-				
+
 				validPassword : function(password, pass) {
-				    return bcrypt.compareSync(password, pass, function (err, res) {
-				    		return res;
-				    });
+						bcrypt.compare(password, pass, function(err, res){
+							return res;
+						});
 				}
 
-						
+
 			}
 
-	
 
-		
+
+
 	})
 
-	
+
 	// User.generateHash = function(password) {
  //    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 	// };
@@ -107,10 +113,10 @@ module.exports = function () {
 	       console.log('An error occurred while create the table:', err)
 	     } else {
 	     	console.log('table user synced!!');
-	     	
 
 
-	       				
+
+
 	     }
 	  });
 
@@ -121,5 +127,3 @@ module.exports = function () {
 
 
 }
-
-
