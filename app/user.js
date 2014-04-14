@@ -75,6 +75,8 @@ module.exports = function () {
 				},
 				
 				validPassword : function(password) {
+					console.log("Password : " + password);
+					console.log("this.password" + this.password)
 				    return bcrypt.compareSync(password, this.password);
 				}
 
