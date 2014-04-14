@@ -60,7 +60,7 @@ module.exports = function (passport) {
 						    if (err) 
 						    	throw err;
 						    return done(null, newUser)
-			 		 })
+			 		})
             }
 
         });    
@@ -86,20 +86,21 @@ module.exports = function (passport) {
 		// we are checking to see if the user trying to login already exists
         User.find({where: { email :  email }})
         	.complete(function(err, user) {
-            // if there are any errors, return the error before anything else
+
             if (err)
                 return done(err);
 
-            // if no user is found, return the message
             if (!user){
                 console.log("no user found");
                 return done(null, false, req.flash('loginMessage', 'No user found.')); // req.flash is the way to set flashdata using connect-flash
             }
 			// if the user is found but the password is wrong
-            console.log("password: " + user.password);
-            console.log("password: " + password);
-            if (!User.validPassword(user.password))
+            
+            console.log("user email from passpart: " + user.email);
+            if (!User.validPassword(password, user.password))
                 console.log("wrong password");
+                console.log("user.password: " + user.password);
+                console.log("password: " + password);
                 return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.')); // create the loginMessage and save it to session as flashdata
 
             // all is well, return successful user

@@ -13,8 +13,8 @@ app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded());
-app.use(express.cookieParser());
 app.use(express.methodOverride());
+app.use(express.cookieParser());
 // required for passport
 app.use(express.session({ secret: 'iloveplayingtennis' })); // session secret
 app.use(passport.initialize());

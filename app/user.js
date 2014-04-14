@@ -74,12 +74,8 @@ module.exports = function () {
 			    	return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 				},
 				
-				validPassword : function(password) {
-					console.log("I am in User js");
-					console.log("Password : " + password);
-					console.log("typed Password : " + user.password);
-					console.log("this.password" + this.password)
-				    return bcrypt.compareSync(password, this.password);
+				validPassword : function(password, pass) {
+				    return bcrypt.compareSync(password, pass);
 				}
 
 						
@@ -107,6 +103,7 @@ module.exports = function () {
 	       console.log('An error occurred while create the table:', err)
 	     } else {
 	     	console.log('table user synced!!');
+	     	
 
 
 	       				
