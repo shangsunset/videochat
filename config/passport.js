@@ -2,6 +2,7 @@
 var LocalStrategy   = require('passport-local').Strategy;
 var User = require('../app/user')();
 
+
 module.exports = function (passport) {
 
     //used to serialize the user for the session
@@ -48,8 +49,6 @@ module.exports = function (passport) {
                 console.log("eamil taken");
                 return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
             } else {
-
-        			
 			        	User
 						  .create({
 						    email: email,
