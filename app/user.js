@@ -73,9 +73,8 @@ module.exports = function () {
 		classMethods : {
 				//remember to check for error .
 				generateHash : function(password) {
-<<<<<<< HEAD
 			    	return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
-=======
+
 						bcrypt.genSalt(10, function(err, salt) {
 								if (err) return err;
 						    bcrypt.hash(password, salt, function(err, hash) {
@@ -83,17 +82,14 @@ module.exports = function () {
 									return hash;
 						    });
 						});
->>>>>>> c8214887fed1de717db88eb87f5c11508c0b305a
 				},
 
 				validPassword : function(password, pass) {
-<<<<<<< HEAD
+
 				    return bcrypt.compareSync(password, pass);
-=======
 						bcrypt.compare(password, pass, function(err, res){
 							return res;
 						});
->>>>>>> c8214887fed1de717db88eb87f5c11508c0b305a
 				}
 
 
