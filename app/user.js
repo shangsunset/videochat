@@ -73,8 +73,6 @@ module.exports = function () {
 		classMethods : {
 				//remember to check for error .
 				generateHash : function(password) {
-			    	return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
-
 						bcrypt.genSalt(10, function(err, salt) {
 								if (err) return err;
 						    bcrypt.hash(password, salt, function(err, hash) {
@@ -85,10 +83,7 @@ module.exports = function () {
 				},
 
 				validPassword : function(password, pass) {
-
-				    return bcrypt.compareSync(password, pass);
 						bcrypt.compare(password, pass, function(err, res){
-							console.log("Those password are matched " + res);
 							return res;
 						});
 				}
