@@ -5,11 +5,11 @@ module.exports = function (app, passport) {
 
 
 	app.get('/', function (req, res) {
-		res.render('login.jade');
+		res.render('login.jade', { message: req.flash('loginMessage') });
 	});
 
 	app.get('/signup', function (req, res) {
-		res.render('signup.jade');
+		res.render('signup.jade', { message: req.flash('signupMessage') });
 	});
 
 

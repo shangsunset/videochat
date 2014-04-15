@@ -7,9 +7,9 @@ block content
 		h1
 			span(class="fa fa-sign-in") Login
 
-		//- if message.length > 0
-		//- 	.alert.alert-danger
-		//- 		p message
+		if message.length > 0
+			.alert.alert-danger
+				p #{message}
 
 		form(action='/login', method='post' class="loginForm")
 			.form-group

@@ -10,12 +10,12 @@ module.exports = function () {
 	})
 
 
-	var User = db.define('User',
+	return db.define('User',
 	{
-		user_id: {type: Sequelize.INTEGER, allowNull: false, autoIncrement: true, primaryKey: true},
+		user_id: {type: Sequelize.INTEGER(50), allowNull: false, autoIncrement: true, primaryKey: true},
 		// username: {type: Sequelize.STRING, allowNull: false},
-		email: {type: Sequelize.STRING, allowNull: false},
-		password: {type: Sequelize.STRING, allowNull: false}
+		email: {type: Sequelize.STRING, unique: true, allowNull: false, validate: { isEmail: true }},
+		password: {type: Sequelize.STRING(500), allowNull: false}
 		// first_name: {type: Sequelize.STRING, allowNull: false},
 	 //  	last_name: {type: Sequelize.STRING, allowNull: false}
 	},
@@ -55,8 +55,8 @@ module.exports = function () {
 					this.setDataValue('email', newEmail.toString().toLowerCase());
 			},
 
-			password: function (newPassWord) {
-					this.setDataValue('password', newPassWord.toString().toLowerCase());
+			password: function (newPassword) {
+					this.setDataValue('password', newPassword.toString().toLowerCase());
 			}
 
 			// first_name: function (fn) {
@@ -72,39 +72,40 @@ module.exports = function () {
 
 		classMethods : {
 				//remember to check for error .
-				generateHash : function(password) {
-						bcrypt.genSalt(10, function(err, salt) {
-								if (err) return err;
-						    bcrypt.hash(password, salt, function(err, hash) {
-									if (err) return err;
-									return hash;
-						    });
-						});
-				},
+				setPassword : function(password) {
+						// return bcrypt.genSalt(10, function(err, salt) {
+						// 		if (err) return err;
+						//     return bcrypt.hash(password, salt, function(err, hash) {
+						// 			if (err) return err;
+						// 			return hash;
+						//     });
+						// });
 
-				validPassword : function(password, pass) {
-						bcrypt.compare(password, pass, function(err, res){
-							return res;
-						});
-				}
+						return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+						
+						
 
+  				}
 
-			}
+			},
 
+		  instanceMethods: {
+     
+		      	verifyPassword: function(password) {
+			        return bcrypt.compare(password, this.password, function(err, result) {
+			        		console.log(result + " from user.js");
+			          		if (err) throw err;
+			          		return result;
 
+			        });
+     			 }
 
+			}	
 
 	})
 
 
-	// User.generateHash = function(password) {
- //    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
-	// };
 
-	// checking if password is valid
-	// User.validPassword = function(password) {
-	//     return bcrypt.compareSync(password, this.password);
-	// };
 
 	db
 	  .sync({ force: true })

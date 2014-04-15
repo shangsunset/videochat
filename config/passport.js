@@ -38,21 +38,26 @@ module.exports = function (passport) {
 
 		// find a user whose email is the same as the forms email
 		// we are checking to see if the user trying to login already exists
-        User.find({where: {email: email}})
+        User.find({where: {email : email}})
         	.complete(function(err, user) {
+                
             // if there are any errors, return the error
-            if (err)
+            if (err){
+                console.log("user ++++++err+++++++ "+user);
                 return done(err);
+            }
 
             // check to see if theres already a user with that email
             if (user) {
-                console.log("eamil taken");
+                console.log("user ========= "+user);
                 return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
             } else {
+
+
 			        	User
 						  .create({
 						    email: email,
-						    password: User.generateHash(password)
+						    password: User.setPassword(password)
 
 						  })
 						  .complete(function(err, newUser) {
@@ -60,6 +65,8 @@ module.exports = function (passport) {
 						    	throw err;
 						    return done(null, newUser)
 			 		})
+
+
             }
 
         });    
@@ -90,13 +97,13 @@ module.exports = function (passport) {
                 return done(err);
 
             if (!user){
-                console.log("no user found");
+                
                 return done(null, false, req.flash('loginMessage', 'No user found.')); // req.flash is the way to set flashdata using connect-flash
             }
 			// if the user is found but the password is wrong
             
-            if (!User.validPassword(password, user.password)){
-                console.log("wrong password");
+            if (!user.verifyPassword(password)){
+                
                 console.log("user.password: " + user.password);
                 console.log("password: " + password);
                 return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.')); // create the loginMessage and save it to session as flashdata
