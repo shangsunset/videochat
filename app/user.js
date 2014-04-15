@@ -88,6 +88,7 @@ module.exports = function () {
 
 				    return bcrypt.compareSync(password, pass);
 						bcrypt.compare(password, pass, function(err, res){
+							console.log("Those password are matched " + res);
 							return res;
 						});
 				}
