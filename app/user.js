@@ -56,7 +56,7 @@ module.exports = function () {
 			},
 
 			password: function (newPassword) {
-					this.setDataValue('password', newPassword.toString().toLowerCase());
+					this.setDataValue('password', newPassword);
 			}
 
 			// first_name: function (fn) {
