@@ -72,33 +72,20 @@ module.exports = function () {
 
 		classMethods : {
 				//remember to check for error .
-				setPassword : function(password) {
-						// return bcrypt.genSalt(10, function(err, salt) {
-						// 		if (err) return err;
-						//     return bcrypt.hash(password, salt, function(err, hash) {
-						// 			if (err) return err;
-						// 			return hash;
-						//     });
-						// });
-
-						return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+				setPassword : function(password, callback) {
 						
-						
-
+						return bcrypt.hash(password, bcrypt.genSaltSync(8), callback);
+												
   				}
 
 			},
 
 		  instanceMethods: {
      
-		      	verifyPassword: function(password) {
-			        return bcrypt.compare(password, this.password, function(err, result) {
-			        		console.log(result + " from user.js");
-			          		if (err) throw err;
-			          		return result;
+		      verifyPassword: function(password, callback) {
+					     bcrypt.compare(password, this.password, callback);
 
-			        });
-     			 }
+					  }
 
 			}	
 

@@ -43,28 +43,39 @@ module.exports = function (passport) {
                 
             // if there are any errors, return the error
             if (err){
-                console.log("user ++++++err+++++++ "+user);
+                
                 return done(err);
             }
 
             // check to see if theres already a user with that email
             if (user) {
-                console.log("user ========= "+user);
                 return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
             } else {
 
 
-			        	User
-						  .create({
-						    email: email,
-						    password: User.setPassword(password)
+			   //      	User
+						//   .create({
+						//     email: email,
+						//     password: User.setPassword(password)
 
-						  })
-						  .complete(function(err, newUser) {
-						    if (err) 
-						    	throw err;
-						    return done(null, newUser)
-			 		})
+						//   })
+						//   .complete(function(err, newUser) {
+						//     if (err) 
+						//     	throw err;
+						//     return done(null, newUser)
+			 		// })
+                User.setPassword(password, function (err, encrypted) {
+                      if (err) return done(err);
+                      User.create({
+                        email: email,
+                        password: encrypted
+                      })
+                        .complete(function (err, user) {
+                            if (err) throw err;
+                            return done(null, user)
+                        })
+                    });
+
 
 
             }
@@ -98,26 +109,27 @@ module.exports = function (passport) {
 
             if (!user){
                 
-                return done(null, false, req.flash('loginMessage', 'No user found.')); // req.flash is the way to set flashdata using connect-flash
+                return done(null, false, req.flash('loginMessage', 'No user found.')); 
             }
 			// if the user is found but the password is wrong
             
-            if (!user.verifyPassword(password)){
+            // if (!user.verifyPassword(password)){
                 
-                console.log("user.password: " + user.password);
-                console.log("password: " + password);
-                return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.')); // create the loginMessage and save it to session as flashdata
-            }
-            // all is well, return successful user
-            return done(null, user);
+            //     console.log("user.password: " + user.password);
+            //     console.log("password: " + password);
+            //     return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.'));
+            // }
+            // // all is well, return successful user
+            // return done(null, user);
+            user.verifyPassword(password, function (err, result) {
+                console.log(result);
+                  if (err || !result) {return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.')); console.log(result); }
+
+                  return done(null, user);
+                });
         });
 
     }));
-
-
-
-	
-
 
 
 };
