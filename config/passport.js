@@ -122,8 +122,8 @@ module.exports = function (passport) {
             // // all is well, return successful user
             // return done(null, user);
             user.verifyPassword(password, function (err, result) {
-                console.log(result);
-                  if (err || result) return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.'));
+                console.log(!result);
+                  if (err || !result) return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.'));
                   return done(null, user);
                 });
         });
