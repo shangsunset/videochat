@@ -52,7 +52,7 @@ module.exports = function () {
 
 		setterMethods: {
 			email: function (newEmail) {
-					this.setDataValue('email', newEmail.toString().toLowerCase());
+					this.setDataValue('email', newEmail);
 			},
 
 			password: function (newPassword) {
