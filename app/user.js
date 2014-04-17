@@ -83,6 +83,7 @@ module.exports = function () {
 		  instanceMethods: {
      
 		      verifyPassword: function(password, callback) {
+		      				console.log("Password in DB : "+ this.password);
 					     bcrypt.compare(password, this.password, callback);
 
 					  }
