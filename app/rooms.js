@@ -19,7 +19,7 @@ exports.list = function(req, res){
 };
 
 exports.addRoom = function (req, res) {
-	res.render('addRoom');
+	res.render('addRoom', {userEmail: req.user.email});
 };
 
 
