@@ -1,7 +1,6 @@
 extends layout
 block content
 
-
 	div.table-responsive
 		table.table.table-hover.displayRooms			
 			tr
@@ -11,9 +10,9 @@ block content
 				
 			each item in rooms			
 				tr
-					td #{item.id}
+					td #{item.room_id}
 					td 
-						a(href="/rooms/videochat/#{item.roomName}") #{item.roomName}
+						a(href="/rooms/videochat/#{item.room_name}/#{item.room_id}") #{item.room_name}
 					td 
 					td 
 				

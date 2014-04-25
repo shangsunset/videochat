@@ -1,4 +1,5 @@
-var rooms = require('./rooms.js');
+var createRoom = require('./createRoom.js');
+var roomsList = require('./roomsList.js');
 
 module.exports = function (app, passport) {
 
@@ -13,14 +14,17 @@ module.exports = function (app, passport) {
 	});
 
 
-	app.get('/rooms', rooms.list);
-	app.get('/createroom', rooms.addRoom);
+	app.get('/rooms', roomsList.list);
 
-	app.get('/rooms/videochat/:roomName', function (req, res) {
+	app.get('/createroom', function (req, res) {
+		res.render('createRoom.jade', {userEmail: req.user.email});
+	});
+
+	app.get('/rooms/videochat/:roomName/:roomId', function (req, res) {
 		res.render('videochat.jade', {roomName: req.params.roomName});
 	});
 
-	app.post('/rooms/createARoom', rooms.createARoom);
+	app.post('/rooms/createRoom', createRoom.create);
 
 
 	

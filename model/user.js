@@ -10,7 +10,7 @@ module.exports = function () {
 	})
 
 
-	return db.define('User',
+	var User = db.define('User',
 	{
 		user_id: {type: Sequelize.INTEGER(50), allowNull: false, autoIncrement: true, primaryKey: true},
 		// username: {type: Sequelize.STRING, allowNull: false},

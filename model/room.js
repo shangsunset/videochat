@@ -8,8 +8,9 @@ module.exports = function () {
 	})
 
 
-	var ChatSession = db.define('ChatSession', {
-		session_id : {type: Sequelize.INTEGER, allowNull: false, autoIncrement: true, primaryKey: true},
+	var Room = db.define('Room', {
+		room_id : {type: Sequelize.INTEGER, allowNull: false, autoIncrement: true, primaryKey: true},
+		room_name: {type: Sequelize.STRING, allowNull: false},
 		start_time: {type: Sequelize.DATE},
 		end_time: {type: Sequelize.DATE}
 	},
@@ -25,7 +26,7 @@ module.exports = function () {
 	{
 		getterMethods: {
 			session_id: function () {
-				return this.getDataValue('session_id');
+				return this.getDataValue('room_id');
 			},
 			user_id: function () {
 				return this.getDataValue('user_id');
@@ -51,9 +52,9 @@ module.exports = function () {
 			if (!!err) {
 		       console.log('An error occurred while create the table:', err)
 		    } else {
-		       console.log('table ' + ChatSession.tableName + ' synced!');
+		       console.log('table ' + Room.tableName + ' synced!');
 		    }
 		})
 
-	return ChatSession;	
+	return Room;	
 }
