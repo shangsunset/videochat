@@ -9,6 +9,7 @@ var User = require('./user.js')(Sequelize, db);
 var Room = require('./room.js')(Sequelize, db);
 
 
+
 module.exports = function(){
 
 	
@@ -26,6 +27,8 @@ module.exports = function(){
 };
 
 
-User.hasMany(Room);
+// User.hasMany(Room);
 Room.belongsTo(User, {foreignKey: 'user_id'});
 
+module.exports.Room = Room;
+module.exports.User = User;

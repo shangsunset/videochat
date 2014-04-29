@@ -1,3 +1,6 @@
+var Room = require('../models/database').Room;
+var roomId = require('./createRoom').roomId;
+
 module.exports = function (io) {
 	
 	var userList = {};
@@ -31,6 +34,29 @@ io.sockets.on('connection', function (socket){
 			io.sockets.in(room).emit('join', room);
 			socket.join(room);
 			socket.emit('joined', room);
+			socket.on('updateStartTime', function (roomId) {
+				var date = new Date();
+				log("from server: " + date)
+				// Room.start_time = date;
+				
+				
+				log('roomId:' + roomId) 
+				Room
+					.find({where: {room_id: roomId}})
+					.complete(function (err, room) {
+						if (err) console.log(err);
+
+						room
+							.updateAttributes({
+								start_time: date
+							})
+							.success(function (st) {
+								
+								console.log("st now is: " + st);
+							})
+						log("star_time: " + room.start_time);
+					})
+			})
 		} else { // max two clients
 			socket.emit('full', room);
 			
@@ -66,11 +92,39 @@ io.sockets.on('connection', function (socket){
          io.sockets.emit('updateChat', socket.username, data);
      });
 
+		        socket.on('updateEndTime', function (room_id) {
+        	
+    			var date = new Date();
+				log("from server: " + date)
+				// Room.start_time = date;
+				
+				
+				log('roomId:' + roomId) 
+				Room
+					.find({where: {room_id: roomId}})
+					.complete(function (err, room) {
+						if (err) console.log(err);
+
+						room
+							.updateAttributes({
+								end_time: date
+							})
+							.success(function (et) {
+								
+								console.log("et now is: " + JSON.stringify(et));
+							})
+						log("end_time: " + room.end_time);
+					})
+
+        })
 
 
 	socket.on('disconnect', function(){
         delete userList[socket.username];
+
         io.sockets.emit('updateUser', userList);
+
+
         socket.broadcast.emit('updateChat', 'SERVER', socket.username + ' has disconnected...');
         
 

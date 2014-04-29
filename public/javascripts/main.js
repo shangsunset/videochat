@@ -25,14 +25,6 @@ $('.textContent').keypress(function(e) {
 
 
 
-
-
-
-
-
-
-
-
 });
 
 

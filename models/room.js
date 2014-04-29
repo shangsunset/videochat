@@ -1,11 +1,13 @@
-module.exports = function () {
+// var Sequelize = require('./database');
 
-	var Sequelize = require('sequelize');
-	var db = new Sequelize('test', 'root', 'root', {
-      dialect: "mysql", 
-      port:    3306
+module.exports = function (Sequelize, db) {
 
-	})
+	// var Sequelize = require('sequelize');
+	// var db = new Sequelize('test', 'root', 'root', {
+ //      dialect: "mysql", 
+ //      port:    3306
+
+	// })
 
 
 	var Room = db.define('Room', {
@@ -39,6 +41,12 @@ module.exports = function () {
 			}
 		},
 		setterMethods: {
+			start_time: function (st) {
+					this.setDataValue('start_time', st);
+			},
+			end_time: function (et) {
+					this.setDataValue('end_time', et);
+			}
 
 		}
 	})

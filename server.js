@@ -22,7 +22,7 @@ app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'controller')));
+app.use(express.static(path.join(__dirname, 'controllers')));
 
 
 // development only
@@ -39,18 +39,18 @@ var server = http.createServer(app).listen(app.get('port'), function(){
 
 
 // routes 
-require('./controller/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
+require('./controllers/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
 
 //for authentication
-require('./controller/auth.js')(passport); // pass passport for configuration
+require('./controllers/auth.js')(passport); // pass passport for configuration
 
 
 //database config 
-var configDB = require('./model/database.js')();
+var configDB = require('./models/database.js')();
 
 //server side of video and text chat
 var io = require('socket.io').listen(server);
 
-require('./controller/chat-server.js')(io);
+require('./controllers/chat-server.js')(io);
 
 

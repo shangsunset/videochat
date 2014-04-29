@@ -21,7 +21,7 @@ module.exports = function (app, passport) {
 	});
 
 	app.get('/rooms/videochat/:roomName/:roomId', function (req, res) {
-		res.render('videochat.jade', {roomName: req.params.roomName});
+		res.render('videochat.jade', {roomName: req.params.roomName, roomId: req.params.roomId});
 	});
 
 	app.post('/rooms/createRoom', createRoom.create);

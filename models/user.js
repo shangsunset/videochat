@@ -1,13 +1,13 @@
 var bcrypt = require('bcrypt');
 
-module.exports = function () {
+module.exports = function (Sequelize, db) {
 
-	var Sequelize = require('sequelize');
-	var db = new Sequelize('test', 'root', 'root', {
-      dialect: "mysql",
-      port:    3306
+	// var Sequelize = require('sequelize');
+	// var db = new Sequelize('test', 'root', 'root', {
+ //      dialect: "mysql",
+ //      port:    3306
 
-	})
+	// })
 
 
 	var User = db.define('User',

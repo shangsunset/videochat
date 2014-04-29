@@ -20,6 +20,7 @@ var sdpConstraints = {'mandatory': {
 /////////////////////////////////////////////
 
 var room = $('#roomName span').text();
+var roomId = $('#roomId span').text();
 
 // var room = location.pathname.substring(1);
 
@@ -54,6 +55,9 @@ socket.on('joined', function (room){
   isChannelReady = true;
   socket.emit('addUser', 'eric'); //prompt('whats your name?')
   console.log('addUser() called in joined...');
+  var startTime = new Date();
+  console.log("startTime: " + startTime)
+  socket.emit('updateStartTime', roomId);
 });
 
 socket.on('log', function (array){
@@ -291,12 +295,12 @@ function handleRemoteStreamRemoved(event) {
   
 }
 
-function hangup() {
-  console.log('Hanging up. hangup button worked');
-  removeRemoteVideo();
-  stop();
-  sendMessage('bye');
-}
+// function hangup() {
+//   console.log('Hanging up. hangup button worked');
+//   removeRemoteVideo();
+//   stop();
+//   sendMessage('bye');
+// }
 
 function removeRemoteVideo() {
     localVideo.src = miniVideo.src;
@@ -307,8 +311,16 @@ function removeRemoteVideo() {
 function handleRemoteHangup() {
   console.log('Session terminated.');
   removeRemoteVideo();
+  socket.emit('updateEndTime', roomId);
+
   var finishingTime = new Date();
   console.log('the finishing time of this chat session is: ' + finishingTime);
+
+  
+
+
+
+
   stop();
   isInitiator = false;
 }
