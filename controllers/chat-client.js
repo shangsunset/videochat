@@ -86,6 +86,7 @@ socket.on('updateUser', function(users){
 
 });
 
+
 function objectSize(the_object) {
   /* function to validate the existence of each key in the object to get the number of valid keys. */
   var object_size = 0;
@@ -311,14 +312,10 @@ function removeRemoteVideo() {
 function handleRemoteHangup() {
   console.log('Session terminated.');
   removeRemoteVideo();
-  socket.emit('updateEndTime', roomId);
+  
 
   var finishingTime = new Date();
   console.log('the finishing time of this chat session is: ' + finishingTime);
-
-  
-
-
 
 
   stop();
