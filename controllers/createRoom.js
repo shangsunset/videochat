@@ -17,7 +17,6 @@ exports.create = function (req, res) {
 					// if(err) console.log(err);
 
 					res.redirect('rooms/videochat/' + req.body.roomName + '/' + room.room_id);
-					console.log("room_id: " + room.room_id);
 					
 					
 			})

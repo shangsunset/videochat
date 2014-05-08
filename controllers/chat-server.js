@@ -77,8 +77,7 @@ io.sockets.on('connection', function (socket){
 							
 						})
 
-					console.log("date now is: " + JSON.stringify(date));
-					log("is roomId returned: " + JSON.stringify(roomId));
+					
 
 			        delete userList[socket.username];
 
@@ -132,37 +131,7 @@ io.sockets.on('connection', function (socket){
 	
 			        
        
-	// socket.on('disconnect', function(){
-
-	// 	var date = new Date();	
 	
-	// 	// Room
-	// 	// 	.find({where: {room_id: roomId}})
-	// 	// 	.complete(function (err, room) {
-	// 	// 		if (err) console.log(err);
-
-	// 	// 		room
-	// 	// 			.updateAttributes({
-	// 	// 				end_time: date
-	// 	// 			})
-	// 	// 			.success(function (et) {
-						
-	// 	// 				console.log("st now is: " + JSON.stringify(et.end_time));
-	// 	// 			})
-				
-	// 	// 	})
-
-	// 	console.log("date now is: " + JSON.stringify(date));
-	// 	console.log("is roomId returned: " + JSON.stringify(roomId));
-
- //        delete userList[socket.username];
-
- //        io.sockets.emit('updateUser', userList);
-
- //        socket.broadcast.emit('updateChat', 'SERVER', socket.username + ' has disconnected...');
-        
-
- //    });
 	
 });
 
