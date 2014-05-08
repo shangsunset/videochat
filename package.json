@@ -23,6 +23,6 @@
     "socket.io": "*"
   },
   "devDependencies": {
-    "nodemon": "*"
+    "nodemon": "latest"
   }
 }

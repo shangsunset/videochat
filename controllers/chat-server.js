@@ -1,6 +1,9 @@
+var Room = require('../models/database').Room;
+
 module.exports = function (io) {
 	
 	var userList = {};
+	var roomId;
 
 io.sockets.on('connection', function (socket){
 
@@ -28,9 +31,68 @@ io.sockets.on('connection', function (socket){
 			socket.join(room);
 			socket.emit('created', room);
 		} else if (numClients === 1 ) {
+
 			io.sockets.in(room).emit('join', room);
 			socket.join(room);
 			socket.emit('joined', room);
+			socket.on('updateStartTime', function (roomId) {
+				var date = new Date();
+				log("from server: " + date)
+				
+								
+				log('roomId:' + roomId) 
+				Room
+					.find({where: {room_id: roomId}})
+					.complete(function (err, room) {
+						if (err) console.log(err);
+
+						room
+							.updateAttributes({
+								start_time: date
+							})
+							.success(function (st) {
+								
+								console.log("st now is: " + JSON.stringify(st.start_time));
+							})
+						log("star_time: " + room.start_time);
+					})
+
+				socket.on('disconnect', function(){
+
+					var date = new Date();	
+				
+					Room
+						.find({where: {room_id: roomId}})
+						.complete(function (err, room) {
+							if (err) console.log(err);
+
+							room
+								.updateAttributes({
+									end_time: date
+								})
+								.success(function (et) {
+									
+									console.log("et now is: " + JSON.stringify(et.end_time));
+								})
+							
+						})
+
+					
+
+			        delete userList[socket.username];
+
+			        io.sockets.emit('updateUser', userList);
+
+			        socket.broadcast.emit('updateChat', 'SERVER', socket.username + ' has disconnected...');
+			        
+
+			    });
+				
+			})
+
+
+
+
 		} else { // max two clients
 			socket.emit('full', room);
 			
@@ -45,7 +107,7 @@ io.sockets.on('connection', function (socket){
 	
 
 	socket.on('addUser', function(username){
-          // we store the username in the socket session for this client
+         // we store the username in the socket session for this client
         socket.username = username;
         //store user in userList
         userList[username] = username;
@@ -66,19 +128,18 @@ io.sockets.on('connection', function (socket){
          io.sockets.emit('updateChat', socket.username, data);
      });
 
-
-
-	socket.on('disconnect', function(){
-        delete userList[socket.username];
-        io.sockets.emit('updateUser', userList);
-        socket.broadcast.emit('updateChat', 'SERVER', socket.username + ' has disconnected...');
-        
-
-    });
+	
+			        
+       
+	
+	
+});
 
 
 	
-});
+	
+
+
 
 function objectSize(obj) {
   /* function to validate the existence of each key in the object to get the number of valid keys. */
