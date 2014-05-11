@@ -2,8 +2,10 @@
   "name": "videochat",
   "version": "0.0.1",
   "private": true,
-  "scripts": {
-    "start": "nodemon server.js"
+  
+  "repository": {
+    "type": "Git",
+    "url": "https://github.com/shangsunset/videochat.git"
   },
   "dependencies": {
     "bcrypt": "^0.7.7",
@@ -21,8 +23,5 @@
     "passport-twitter": "~1.0.2",
     "sequelize": "latest",
     "socket.io": "*"
-  },
-  "devDependencies": {
-    "nodemon": "latest"
   }
 }

@@ -51,6 +51,6 @@ var configDB = require('./models/database.js')();
 //server side of video and text chat
 var io = require('socket.io').listen(server);
 
-require('./controllers/chat-server.js')(io);
+require('./controllers/chatServer.js')(io);
 
 

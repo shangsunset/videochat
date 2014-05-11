@@ -40,9 +40,10 @@ socket.on('created', function (room){
 
 });
 
-socket.on('full', function (room){
-  console.log('Room ' + room + ' is full');
-});
+// socket.on('full', function (room){
+  
+    
+// });
   
 socket.on('join', function (room){
   console.log('Another peer made a request to join room ' + room);

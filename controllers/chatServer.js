@@ -15,6 +15,9 @@ io.sockets.on('connection', function (socket){
 		socket.emit('log', array);
 	}
 
+	
+	
+
 	socket.on('message', function (message) {
 		log('Got message: ', message);
     // For a real app, should be room only (not broadcast)
@@ -134,11 +137,6 @@ io.sockets.on('connection', function (socket){
 	
 	
 });
-
-
-	
-	
-
 
 
 function objectSize(obj) {

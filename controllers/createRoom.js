@@ -14,10 +14,8 @@ exports.create = function (req, res) {
 				.find({where: {room_name: req.body.roomName}})
 				.success(function (room) {
 
-					// if(err) console.log(err);
 
 					res.redirect('rooms/videochat/' + req.body.roomName + '/' + room.room_id);
-					
 					
 			})
 

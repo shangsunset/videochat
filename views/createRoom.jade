@@ -11,9 +11,34 @@ block content
 			br
 			div.createRoom
 				form(action="/rooms/createRoom", method="post" id="form" class="col-lg-12")
-					.input-group(style='width:340px;text-align:center;margin:0 auto;')
+					.input-group(style='width:440px;text-align:center;margin:0 auto;margin-bottom:60px')
 						label(for="roomName")
-						input(type="text", id="roomName",name="roomName", placeholder="name your room..." class="form-control input-lg")
-						input(type="submit", value="CREATE" class="btn btn-lg btn-primary submitButton")
+						input(type="text", id="roomName",name="roomName", placeholder="name your room..." class="form-control input-lg" style='width:305px;')
+						input(type="submit", value="CREATE" class="btn btn-lg btn-primary submitButton" style="margin-right:-15px")
+		.container
+			.row
+			.table-responsive
+				table.table.table-condensed.displayRooms			
+					tr
+						th Room Number
+						th Room Name
+						th User Created
+						
+					each item in rooms			 
+						tr
+							td #{item.room_id}
+							td 
+								a(href="/rooms/videochat/#{item.room_name}/#{item.room_id}") #{item.room_name}
+							td 
+						
+
+	
+		//- var socket = io.connect();
+		//- socket.on('full', function (room){
+		//- 	$('.displayRooms a').on('click', function () {
+		//- 		alert('Room ' + room + ' is full');
+		//- 	})
+	
+		//- });
 
 

@@ -1,5 +1,7 @@
 var createRoom = require('./createRoom.js');
 var roomsList = require('./roomsList.js');
+var Room = require('../models/database').Room;
+
 
 module.exports = function (app, passport) {
 
@@ -17,7 +19,10 @@ module.exports = function (app, passport) {
 	app.get('/rooms', roomsList.list);
 
 	app.get('/createroom', function (req, res) {
-		res.render('createRoom.jade', {userEmail: req.user.email});
+
+		Room.findAll().success(function(rooms) {
+  			res.render('createRoom.jade', {userEmail: req.user.email, rooms: rooms})
+	})
 	});
 
 	app.get('/rooms/videochat/:roomName/:roomId', function (req, res) {
