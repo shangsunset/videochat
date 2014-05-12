@@ -33,34 +33,35 @@ if ('development' == app.get('env')) {
 
 // launch server
 
-var server = http.createServer(app).listen(app.get('port'), function(){
-  console.log('Express server listening on port ' + app.get('port'));
-});
-// db.sequelize.sync().complete(function(err) {
-//   if (err) {
-//     throw err[0]
-//   } else {
-//     http.createServer(app).listen(app.get('port'), function(){
-//       console.log('Express server listening on port ' + app.get('port'))
-//     })
-//   }
-// })
+// var server = http.createServer(app).listen(app.get('port'), function(){
+//   console.log('Express server listening on port ' + app.get('port'));
+// });
+db.sequelize.sync().complete(function(err) {
+  if (err) {
+    throw err[0]
+  } else {
+    var server = http.createServer(app).listen(app.get('port'), function(){
+      console.log('Express server listening on port ' + app.get('port'))
+    })
+    // routes 
+	require('./controllers/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
+
+	//for authentication
+	require('./controllers/auth.js')(passport); // pass passport for configuration
 
 
+	//database config 
+	var configDB = require('./models/database.js');
 
-// routes 
-require('./controllers/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
+	//server side of video and text chat
+	var io = require('socket.io').listen(server);
 
-//for authentication
-require('./controllers/auth.js')(passport); // pass passport for configuration
+	require('./controllers/chatServer.js')(io);
 
 
-//database config 
-var configDB = require('./models/database.js');
+  }
+})
 
-//server side of video and text chat
-var io = require('socket.io').listen(server);
 
-require('./controllers/chatServer.js')(io);
 
 

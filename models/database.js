@@ -28,10 +28,14 @@ if (!global.hasOwnProperty('db')) {
     // add your other models here
   };
 
+  global.db.sequelize.sync().complete(function (err) {
+  		if (!!err) {
+	      console.log('Unable to connect to the database:', err)
+	    } else {
+	      console.log('Connection has been established successfully!!!')
+	    }
+  })
 
-module.exports = global.db;
-module.exports.User = global.db.User;
-module.exports.Room = global.db.Room;
 	
 global.db.Room.belongsTo(global.db.User, {foreignKey: 'user_id'});
 // var Sequelize = require('sequelize');
@@ -40,6 +44,10 @@ global.db.Room.belongsTo(global.db.User, {foreignKey: 'user_id'});
 //     port: 3306
 
 // })
+
+module.exports = global.db;
+module.exports.User = global.db.User;
+module.exports.Room = global.db.Room;
 
 }
 // var User = require('./user.js')(Sequelize, db);
