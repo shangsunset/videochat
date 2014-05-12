@@ -2,17 +2,11 @@ var bcrypt = require('bcrypt');
 
 module.exports = function (Sequelize, db) {
 
-	// var Sequelize = require('sequelize');
-	// var db = new Sequelize('test', 'root', 'root', {
- //      dialect: "mysql",
- //      port:    3306
-
-	// })
 
 
-	var User = db.define('User',
+	return db.define('User',
 	{
-		user_id: {type: Sequelize.INTEGER(50), allowNull: false, autoIncrement: true, primaryKey: true},
+		user_id: {type: Sequelize.INTEGER(), allowNull: false, autoIncrement: true, primaryKey: true},
 		// username: {type: Sequelize.STRING, allowNull: false},
 		email: {type: Sequelize.STRING, unique: true, allowNull: false, validate: { isEmail: true }},
 		password: {type: Sequelize.STRING(500), allowNull: false}
@@ -22,7 +16,7 @@ module.exports = function (Sequelize, db) {
 
 	{
 
-		
+
 
 		getterMethods: {
 			user_id : function () {

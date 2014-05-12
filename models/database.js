@@ -13,7 +13,6 @@ if (!global.hasOwnProperty('db')) {
       host:     match[3],
       logging:  true //false
     })
-      	console.log("+++++++++++++" + match[5]);
 
 
   } else {
@@ -31,15 +30,15 @@ if (!global.hasOwnProperty('db')) {
     // add your other models here
   };
 
-  sequelize
-	  .authenticate()
-	  .complete(function(err) {
-	    if (!!err) {
-	      console.log('Unable to connect to the database:', err)
-	    } else {
-	      console.log('Connection has been established successfully.')
-	    }
-	  })
+  // sequelize
+	 //  .authenticate()
+	 //  .complete(function(err) {
+	 //    if (!!err) {
+	 //      console.log('Unable to connect to the database:', err)
+	 //    } else {
+	 //      console.log('Connection has been established successfully.')
+	 //    }
+	 //  })
   
 	
 global.db.Room.belongsTo(global.db.User, {foreignKey: 'user_id'});

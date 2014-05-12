@@ -4,7 +4,7 @@ module.exports = function (Sequelize, db) {
 
 
 
-	var Room = db.define('Room', {
+	return db.define('Room', {
 		room_id : {type: Sequelize.INTEGER, allowNull: false, autoIncrement: true, primaryKey: true},
 		room_name: {type: Sequelize.STRING, allowNull: false},
 		start_time: {type: Sequelize.DATE},
