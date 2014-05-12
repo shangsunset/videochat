@@ -32,7 +32,8 @@ if (!global.hasOwnProperty('db')) {
 module.exports = global.db;
 module.exports.User = global.db.User;
 module.exports.Room = global.db.Room;
-
+	
+global.db.Room.belongsTo(global.db.User, {foreignKey: 'user_id'});
 // var Sequelize = require('sequelize');
 // var db = new Sequelize('test', 'root', 'root', {
 //     dialect: "mysql", 
