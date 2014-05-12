@@ -4,7 +4,7 @@ var path = require('path');
 var app = express();
 var passport = require('passport');
 var flash 	 = require('connect-flash');
-// var db      = require('./models');
+var db      = require('./models/database');
 
 // all environments
 app.set('port', process.env.PORT || 3000);
