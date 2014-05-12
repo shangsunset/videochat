@@ -22,7 +22,7 @@ module.exports = function (app, passport) {
 
 		Room.findAll().success(function(rooms) {
   			res.render('createRoom.jade', {userEmail: req.user.email, rooms: rooms})
-	})
+		})
 	});
 
 	app.get('/rooms/videochat/:roomName/:roomId', function (req, res) {

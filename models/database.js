@@ -30,10 +30,18 @@ if (!global.hasOwnProperty('db')) {
     // add your other models here
   };
 
-
+  // sequelize
+	 //  .authenticate()
+	 //  .complete(function(err) {
+	 //    if (!!err) {
+	 //      console.log('Unable to connect to the database:', err)
+	 //    } else {
+	 //      console.log('Connection has been established successfully!')
+	 //    }
+	 //  })
   
 	
-global.db.Room.belongsTo(global.db.User, {foreignKey: 'user_id'});
+global.db.Room.belongsTo(global.db.User, {foreignKey: 'user_created'});
 // var Sequelize = require('sequelize');
 // var db = new Sequelize('test', 'root', 'root', {
 //     dialect: "mysql", 

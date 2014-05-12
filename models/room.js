@@ -8,7 +8,8 @@ module.exports = function (Sequelize, db) {
 		room_id : {type: Sequelize.INTEGER, allowNull: false, autoIncrement: true, primaryKey: true},
 		room_name: {type: Sequelize.STRING, allowNull: false},
 		start_time: {type: Sequelize.DATE},
-		end_time: {type: Sequelize.DATE}
+		end_time: {type: Sequelize.DATE},
+		user_joined: {type: Sequelize.INTEGER}
 	},
 
 	{

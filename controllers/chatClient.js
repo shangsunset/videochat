@@ -88,6 +88,7 @@ socket.on('updateUser', function(users){
 });
 
 
+
 function objectSize(the_object) {
   /* function to validate the existence of each key in the object to get the number of valid keys. */
   var object_size = 0;

@@ -6,6 +6,9 @@
     "type": "Git",
     "url": "https://github.com/shangsunset/videochat.git"
   },
+  "scripts": {
+      "start" : "nodemon server.js"
+  },
   "dependencies": {
     "bcrypt": "^0.7.7",
     "connect-flash": "~0.1.1",
@@ -26,5 +29,8 @@
   },
   "engines": {
     "node": "0.10.x"
+  },
+  "devDependencies": {
+    "nodemon": "*"
   }
 }

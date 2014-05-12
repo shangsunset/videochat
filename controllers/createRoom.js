@@ -6,7 +6,8 @@ exports.create = function (req, res) {
 	
 	Room
 		.create({
-			room_name: req.body.roomName
+			room_name: req.body.roomName,
+			user_created: req.user.user_id
 		})
 		.complete(function () {
 						
@@ -16,7 +17,7 @@ exports.create = function (req, res) {
 
 
 					res.redirect('rooms/videochat/' + req.body.roomName + '/' + room.room_id);
-					
+					return room;
 			})
 
 		})
