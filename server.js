@@ -4,6 +4,7 @@ var path = require('path');
 var app = express();
 var passport = require('passport');
 var flash 	 = require('connect-flash');
+// var db      = require('./models');
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -35,6 +36,15 @@ if ('development' == app.get('env')) {
 var server = http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
+// db.sequelize.sync().complete(function(err) {
+//   if (err) {
+//     throw err[0]
+//   } else {
+//     http.createServer(app).listen(app.get('port'), function(){
+//       console.log('Express server listening on port ' + app.get('port'))
+//     })
+//   }
+// })
 
 
 
@@ -46,7 +56,7 @@ require('./controllers/auth.js')(passport); // pass passport for configuration
 
 
 //database config 
-var configDB = require('./models/database.js')();
+var configDB = require('./models/database.js');
 
 //server side of video and text chat
 var io = require('socket.io').listen(server);

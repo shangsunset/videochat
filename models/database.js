@@ -1,34 +1,73 @@
-var mysql = require('mysql');
-var Sequelize = require('sequelize');
-var db = new Sequelize('test', 'root', 'root', {
-    dialect: "mysql", 
-    port: 3306
+if (!global.hasOwnProperty('db')) {
+  var Sequelize = require('sequelize')
+    , sequelize = null
+ 
+  if (process.env.HEROKU_POSTGRESQL_GOLD_URL) {
+    // the application is executed on Heroku ... use the postgres database
+    var match = process.env.HEROKU_POSTGRESQL_GOLD_URL.match(/postgres:\/\/([^:]+):([^@]+)@([^:]+):(\d+)\/(.+)/)
+ 
+    sequelize = new Sequelize(match[5], match[1], match[2], {
+      dialect:  'postgres',
+      protocol: 'postgres',
+      port:     match[4],
+      host:     match[3],
+      logging:  true //false
+    })
+  } else {
+    // the application is executed on the local machine ... use mysql
+    sequelize = new Sequelize('test', 'root', 'root')
+  }
 
-})
-var User = require('./user.js')(Sequelize, db);
-var Room = require('./room.js')(Sequelize, db);
+
+  global.db = {
+    Sequelize: Sequelize,
+    sequelize: sequelize,
+    User:      require('./user.js')(Sequelize, sequelize),
+    Room:      require('./room.js')(Sequelize, sequelize)
+ 
+    // add your other models here
+  };
+
+
+module.exports = global.db;
+module.exports.User = global.db.User;
+module.exports.Room = global.db.Room;
+
+// var Sequelize = require('sequelize');
+// var db = new Sequelize('test', 'root', 'root', {
+//     dialect: "mysql", 
+//     port: 3306
+
+// })
+
+}
+// var User = require('./user.js')(Sequelize, db);
+// var Room = require('./room.js')(Sequelize, db);
+// module.exports.Room = Room;
+// module.exports.User = User;
 
 
 
-module.exports = function(){
+// module.exports = function(){
 
 	
 
-	db
-	  .authenticate()
-	  .complete(function(err) {
-	    if (!!err) {
-	      console.log('Unable to connect to the database:', err)
-	    } else {
-	      console.log('Connection has been established successfully.')
-	    }
-	  })
+// 	db
+// 	  .authenticate()
+// 	  .complete(function(err) {
+// 	    if (!!err) {
+// 	      console.log('Unable to connect to the database:', err)
+// 	    } else {
+// 	      console.log('Connection has been established successfully.')
+// 	    }
+// 	  })
 
-};
+// };
 
 
 // User.hasMany(Room);
-Room.belongsTo(User, {foreignKey: 'user_id'});
+// Room.belongsTo(User, {foreignKey: 'user_id'})
 
-module.exports.Room = Room;
-module.exports.User = User;
+
+
+

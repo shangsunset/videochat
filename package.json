@@ -2,7 +2,6 @@
   "name": "videochat",
   "version": "0.0.1",
   "private": true,
-  
   "repository": {
     "type": "Git",
     "url": "https://github.com/shangsunset/videochat.git"
@@ -14,14 +13,15 @@
     "express": "3.4.8",
     "express-session": "latest",
     "jade": "*",
-    "mysql": "*",
     "node-static": "*",
     "passport": "~0.1.17",
     "passport-facebook": "~1.0.2",
     "passport-google-oauth": "~0.1.5",
     "passport-local": "~0.1.6",
     "passport-twitter": "~1.0.2",
-    "sequelize": "latest",
-    "socket.io": "*"
+    "socket.io": "*",
+    "mysql": "~2.2.0",
+    "pg": "~3.0.3",
+    "sequelize": "~1.7.5"
   }
 }
