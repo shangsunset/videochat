@@ -3,6 +3,7 @@ if (!global.hasOwnProperty('db')) {
     , sequelize = null
  
   if (process.env.HEROKU_POSTGRESQL_GOLD_URL) {
+  	console.log("+++++++++++++");
     // the application is executed on Heroku ... use the postgres database
     var match = process.env.HEROKU_POSTGRESQL_GOLD_URL.match(/postgres:\/\/([^:]+):([^@]+)@([^:]+):(\d+)\/(.+)/)
  
@@ -13,6 +14,8 @@ if (!global.hasOwnProperty('db')) {
       host:     match[3],
       logging:  true //false
     })
+
+
   } else {
     // the application is executed on the local machine ... use mysql
     sequelize = new Sequelize('test', 'root', 'root')
@@ -28,14 +31,16 @@ if (!global.hasOwnProperty('db')) {
     // add your other models here
   };
 
-  global.db.sequelize.sync().complete(function (err) {
-  		if (!!err) {
+  sequelize
+	  .authenticate()
+	  .complete(function(err) {
+	    if (!!err) {
 	      console.log('Unable to connect to the database:', err)
 	    } else {
-	      console.log('Connection has been established successfully!!!')
+	      console.log('Connection has been established successfully.')
 	    }
-  })
-
+	  })
+  
 	
 global.db.Room.belongsTo(global.db.User, {foreignKey: 'user_id'});
 // var Sequelize = require('sequelize');
@@ -60,16 +65,7 @@ module.exports.Room = global.db.Room;
 // module.exports = function(){
 
 	
-
-// 	db
-// 	  .authenticate()
-// 	  .complete(function(err) {
-// 	    if (!!err) {
-// 	      console.log('Unable to connect to the database:', err)
-// 	    } else {
-// 	      console.log('Connection has been established successfully.')
-// 	    }
-// 	  })
+	
 
 // };
 
