@@ -2,12 +2,6 @@
 
 module.exports = function (Sequelize, db) {
 
-	// var Sequelize = require('sequelize');
-	// var db = new Sequelize('test', 'root', 'root', {
- //      dialect: "mysql", 
- //      port:    3306
-
-	// })
 
 
 	var Room = db.define('Room', {
@@ -20,8 +14,8 @@ module.exports = function (Sequelize, db) {
 	{
 		
 		createdAt: false,
-		updatedAt: false,
-		freezeTableName: true
+		updatedAt: false
+
 		
 	},
 

@@ -22,7 +22,7 @@ module.exports = function (Sequelize, db) {
 
 	{
 
-		freezeTableName: true,
+		
 
 		getterMethods: {
 			user_id : function () {

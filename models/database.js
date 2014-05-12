@@ -3,7 +3,6 @@ if (!global.hasOwnProperty('db')) {
     , sequelize = null
  
   if (process.env.HEROKU_POSTGRESQL_GOLD_URL) {
-  	console.log("+++++++++++++");
     // the application is executed on Heroku ... use the postgres database
     var match = process.env.HEROKU_POSTGRESQL_GOLD_URL.match(/postgres:\/\/([^:]+):([^@]+)@([^:]+):(\d+)\/(.+)/)
  
@@ -14,6 +13,7 @@ if (!global.hasOwnProperty('db')) {
       host:     match[3],
       logging:  true //false
     })
+      	console.log("+++++++++++++" + match[5]);
 
 
   } else {
