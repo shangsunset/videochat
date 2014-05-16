@@ -3,7 +3,7 @@ var express = require('express.io');
 
 var http = require('http');
 var path = require('path');
-var app = express().http().io()
+var app  = express().http().io()
 var passport = require('passport');
 var flash 	 = require('connect-flash');
 var db      = require('./models/database');

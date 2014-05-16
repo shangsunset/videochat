@@ -141,7 +141,61 @@ socket.on('message', function (message){
 var localVideo = document.querySelector('#localVideo');
 var remoteVideo = document.querySelector('#remoteVideo');
 var miniVideo = document.querySelector('#miniVideo');
+var hangup = document.querySelector('#hangup');
 
+
+
+hangup.onclick = function () {
+  console.log('Hanging up. hangup button worked');
+
+  ////
+    mRecordRTC.stopRecording();
+
+    var fileName = Math.round(Math.random() * 99999999) + 99999999
+    mRecordRTC.getDataURL(function(dataURL) {
+        var files = {
+            audio: {
+                name: fileName + '.wav',
+                type: 'audio/wav',
+                dataURL: dataURL.audio
+            },
+            video: {
+                name: fileName + '.webm',
+                type: 'video/webm',
+                dataURL: dataURL.video
+            }
+        }
+        socket.emit('videoRecorded', files)
+        remoteVideo.src = '';
+                    remoteVideo.poster = 'ajax-loader.gif';
+        
+    });
+  ////
+
+  handleRemoteHangup()
+  sendMessage('bye');
+}
+
+socket.on('merged', function(fileName) {
+	console.log(location.href + '/uploads/' + fileName);	
+   remoteVideo.src = location.href + '/uploads/' + fileName;
+                remoteVideo.play();
+		
+    });
+
+var mRecordRTC = new MRecordRTC();
+
+            mRecordRTC.mediaType = {
+                
+                video: true,
+                audio: true
+            };
+
+            mRecordRTC.bufferSize = 16384;
+            mRecordRTC.canvas = {
+                width: innerWidth,
+                height: innerHeight
+            };
 
 
 
@@ -162,16 +216,10 @@ function handleUserMediaError(error){
 
 var constraints = {
   
-   video: {
-  "mandatory": {
-   "minWidth": "300",
-   "maxWidth": "1280",
-   "minHeight": "200",
-   "maxHeight": "800",
-   "minFrameRate": "30"
-  },
-  "optional": []
- }
+   video: true
+
+   
+  
 };
 
 getUserMedia(constraints, handleUserMedia, handleUserMediaError);
@@ -231,13 +279,19 @@ function handleIceCandidate(event) {
   }
 }
 
+
 function handleRemoteStreamAdded(event) {
   console.log('Remote stream added.');
   remoteVideo.src = window.URL.createObjectURL(event.stream);
   remoteStream = event.stream;
+
+  mRecordRTC.addStream(remoteStream);
+  mRecordRTC.startRecording();
+
   miniVideo.src = localVideo.src;
   localVideo.src = remoteVideo.src;
   $('#remoteVideo').remove();
+
 
 }
 
@@ -298,12 +352,7 @@ function handleRemoteStreamRemoved(event) {
   
 }
 
-// function hangup() {
-//   console.log('Hanging up. hangup button worked');
-//   removeRemoteVideo();
-//   stop();
-//   sendMessage('bye');
-// }
+
 
 function removeRemoteVideo() {
     localVideo.src = miniVideo.src;
@@ -314,12 +363,8 @@ function removeRemoteVideo() {
 function handleRemoteHangup() {
   console.log('Session terminated.');
   removeRemoteVideo();
-  
-
   var finishingTime = new Date();
   console.log('the finishing time of this chat session is: ' + finishingTime);
-
-
   stop();
   isInitiator = false;
 }
@@ -410,8 +455,6 @@ function removeCN(sdpLines, mLineIndex) {
   sdpLines[mLineIndex] = mLineElements.join(' ');
   return sdpLines;
 }
-
-
 
 
 

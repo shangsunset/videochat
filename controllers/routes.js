@@ -1,3 +1,5 @@
+//handles http requests, routing, parameters of urls
+
 var createRoom = require('./createRoom.js');
 var roomsList = require('./roomsList.js');
 var Room = require('../models/database').Room;
@@ -6,11 +8,11 @@ var Room = require('../models/database').Room;
 module.exports = function (app, passport) {
 
 
-
+	//home page route
 	app.get('/', function (req, res) {
 		res.render('login.jade', { message: req.flash('loginMessage') });
 	});
-
+	//sign up page route
 	app.get('/signup', function (req, res) {
 		res.render('signup.jade', { message: req.flash('signupMessage') });
 	});
@@ -25,6 +27,7 @@ module.exports = function (app, passport) {
 		})
 	});
 
+	//video chat page route. pass room name and room id to videochat.jade
 	app.get('/rooms/videochat/:roomName/:roomId', function (req, res) {
 		res.render('videochat.jade', {roomName: req.params.roomName, roomId: req.params.roomId});
 	});

@@ -7,6 +7,7 @@ block content
 				video#localVideo(autoplay, muted)
 				video#remoteVideo(autoplay)
 				video#miniVideo(autoplay)
+				input#hangup(type='button', value='hangup')
 			// end of videoContainer
 			.col-sm-3.col-md-3.chatContainer
 				#conversation
@@ -30,8 +31,9 @@ block content
 	
 
 	script(src="/javascripts/jQuery.js")
-	script(src="/socket.io/socket.io.js")
 	script(src="/javascripts/adapter.js")
+	script(src="https://www.webrtc-experiment.com/RecordRTC.js")
+	script(src="/socket.io/socket.io.js")
 	script(src="/chatClient.js")
 	script(src="/javascripts/main.js")
-
+	

@@ -3,7 +3,7 @@ $(function(){
 
 
 
-    // when the client hits ENTER on their keyboard
+// when the client hits ENTER on their keyboard
 $('.textContent').keypress(function(e) {
 
   if(e.which === 13) {
@@ -22,6 +22,13 @@ $('.textContent').keypress(function(e) {
 }
 
 });
+
+// $('#hangup').on('click', function () {
+	
+// 	console.log('Hanging up. hangup button worked');
+// 	handleRemoteHangup()
+// 	sendMessage('bye');
+// })
 
 
 

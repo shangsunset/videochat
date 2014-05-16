@@ -101,16 +101,7 @@ module.exports = function (passport) {
                 
                 return done(null, false, req.flash('loginMessage', 'No user found.')); 
             }
-			// if the user is found but the password is wrong
-            
-            // if (!user.verifyPassword(password)){
-                
-            //     console.log("user.password: " + user.password);
-            //     console.log("password: " + password);
-            //     return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.'));
-            // }
-            // // all is well, return successful user
-            // return done(null, user);
+			
             user.verifyPassword(password, function (err, result) {
                 console.log(!result);
                   if (err || !result) return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.'));
