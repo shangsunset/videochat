@@ -1,9 +1,9 @@
 // var express = require('express');
-var express = require('express.io');
+var express = require('express');
 
 var http = require('http');
 var path = require('path');
-var app  = express().http().io()
+var app  = express();
 var passport = require('passport');
 var flash 	 = require('connect-flash');
 var db      = require('./models/database');

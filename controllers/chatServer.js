@@ -8,6 +8,7 @@ module.exports = function (io) {
 	var userList = {};
 	var roomId;
 
+//everything happends after connection is setup
 io.sockets.on('connection', function (socket){
 
 	function log(){
@@ -18,6 +19,7 @@ io.sockets.on('connection', function (socket){
 		socket.emit('log', array);
 	}
 
+    //writed recorded file to disk
 	socket.on('videoRecorded', function(data) {
         console.log('writing to disk');
         writeToDisk(data.audio.dataURL, data.audio.name);
@@ -33,11 +35,14 @@ io.sockets.on('connection', function (socket){
 		socket.broadcast.emit('message', message);
 	});
 
+    //different situations based on different number of clients in a room
 	socket.on('create or join', function (room) {
+
 		var numClients = io.sockets.clients(room).length;
 
 		log('Room ' + room + ' has ' + numClients + ' client(s)');
 		log('Request to create or join room', room);
+
 
 		if (numClients === 0){
 			socket.join(room);
@@ -47,6 +52,9 @@ io.sockets.on('connection', function (socket){
 			io.sockets.in(room).emit('join', room);
 			socket.join(room);
 			socket.emit('joined', room);
+
+            //when this event is fired from the client side, 
+            //finde the room with roomId passed from client side and put the data now to database
 			socket.on('updateStartTime', function (roomId) {
 				var date = new Date();
 				log("from server: " + date)
@@ -57,7 +65,7 @@ io.sockets.on('connection', function (socket){
 					.find({where: {room_id: roomId}})
 					.complete(function (err, room) {
 						if (err) console.log(err);
-
+                        //update attribute in the database
 						room
 							.updateAttributes({
 								start_time: date
@@ -69,6 +77,7 @@ io.sockets.on('connection', function (socket){
 						log("star_time: " + room.start_time);
 					})
 
+                //when a user exits, record the finishing time for the chat and store it in the database
 				socket.on('disconnect', function(){
 
 					var date = new Date();	
@@ -117,7 +126,7 @@ io.sockets.on('connection', function (socket){
 
 
 	
-
+    //when a user is added, broadcast to all the users in that room
 	socket.on('addUser', function(username){
          // we store the username in the socket session for this client
         socket.username = username;

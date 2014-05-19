@@ -7,11 +7,10 @@ module.exports = function (Sequelize, db) {
 	return db.define('User',
 	{
 		user_id: {type: Sequelize.INTEGER(), allowNull: false, autoIncrement: true, primaryKey: true},
-		// username: {type: Sequelize.STRING, allowNull: false},
 		email: {type: Sequelize.STRING, unique: true, allowNull: false, validate: { isEmail: true }},
-		password: {type: Sequelize.STRING(500), allowNull: false}
-		// first_name: {type: Sequelize.STRING, allowNull: false},
-	 //  	last_name: {type: Sequelize.STRING, allowNull: false}
+		password: {type: Sequelize.STRING(500), allowNull: false},
+		first_name: {type: Sequelize.STRING, allowNull: false},
+		last_name: {type: Sequelize.STRING, allowNull: false}
 	},
 
 	{
@@ -23,9 +22,7 @@ module.exports = function (Sequelize, db) {
 		  			return this.getDataValue('user_id');
 	  		},
 
-		  	// username: function () {
-		  	// 		return this.getDataValue('username');
-	  		// },
+		  	
 
 	  		email: function () {
 		  			return this.getDataValue('email');
@@ -33,15 +30,15 @@ module.exports = function (Sequelize, db) {
 
 		  	password: function () {
 		  			return this.getDataValue('password');
+	  		},
+
+		  	first_name: function () {
+		  			return this.getDataValue('first_name');
+	  		},
+
+	  		last_name: function () {
+		  			return this.getDataValue('last_name');
 	  		}
-
-		  	// first_name: function () {
-		  	// 		return this.getDataValue('first_name');
-	  		// },
-
-	  		// last_name: function () {
-		  	// 		return this.getDataValue('last_name');
-	  		// }
 		},
 
 		setterMethods: {
@@ -51,19 +48,20 @@ module.exports = function (Sequelize, db) {
 
 			password: function (newPassword) {
 					this.setDataValue('password', newPassword);
+			},
+
+			first_name: function (fn) {
+					this.setDataValue('first_name', fn);
+			},
+
+			last_name: function (ln) {
+					this.setDataValue('last_name', ln);
 			}
-
-			// first_name: function (fn) {
-			// 		this.setDataValue('first_name', fn.toString().toLowerCase());
-			// },
-
-			// last_name: function (ln) {
-			// 		this.setDataValue('last_name', ln.toString().toLowerCase());
-			// },
 
 
 		},
 
+		//custom methods. classMethods is like static method is java
 		classMethods : {
 				//remember to check for error .
 				setPassword : function(password, callback) {
@@ -77,8 +75,7 @@ module.exports = function (Sequelize, db) {
 		  instanceMethods: {
      
 		      verifyPassword: function(password, callback) {
-		      				console.log("Passed in Password : " + password);
-		      				console.log("Password in DB : "+ this.password);
+		      				
 					     bcrypt.compare(password, this.password, callback);
 
 					  }

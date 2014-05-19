@@ -1,6 +1,5 @@
 
 var LocalStrategy   = require('passport-local').Strategy;
-// var User = require('../models/user')();
 var User = require('../models/database').User;
 
 
@@ -33,7 +32,6 @@ module.exports = function (passport) {
     },
     function(req, email, password, done) {
 
-   
         // asynchronous
         // User.find wont fire unless data is sent back
         process.nextTick(function() {
@@ -58,7 +56,10 @@ module.exports = function (passport) {
                       if (err) return done(err);
                       User.create({
                         email: email,
-                        password: encrypted
+                        password: encrypted,
+                        first_name: req.body.firstName,
+                        last_name: req.body.lastName
+
                       })
                         .complete(function (err, user) {
                             if (err) throw err;

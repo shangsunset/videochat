@@ -23,7 +23,7 @@ module.exports = function (app, passport) {
 	app.get('/createroom', function (req, res) {
 
 		Room.findAll().success(function(rooms) {
-  			res.render('createRoom.jade', {userEmail: req.user.email, rooms: rooms})
+  			res.render('createRoom.jade', {userFirstName: req.user.first_name, rooms: rooms})
 		})
 	});
 

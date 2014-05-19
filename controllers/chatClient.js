@@ -19,10 +19,10 @@ var sdpConstraints = {'mandatory': {
 
 /////////////////////////////////////////////
 
+
 var room = $('#roomName span').text();
 var roomId = $('#roomId span').text();
 
-// var room = location.pathname.substring(1);
 
 
 var socket = io.connect();
@@ -32,6 +32,7 @@ if (room) {
   socket.emit('create or join', room);
 }
 
+//when event 'created' is fired from server side, set isInitiator to true. fire event 'addUser' back to server side
 socket.on('created', function (room){
   console.log('Created room ' + room);
   isInitiator = true;
@@ -51,6 +52,7 @@ socket.on('join', function (room){
   isChannelReady = true;
 });
 
+//when a user joins the room, fires event 'addUser', 'updateStartTime' with roomId back to server side
 socket.on('joined', function (room){
   console.log('This peer has joined room ' + room);
   isChannelReady = true;
@@ -65,6 +67,7 @@ socket.on('log', function (array){
   console.log.apply(console, array);
 });
 
+//when server side fires 'updateChat', client side append the data to the DOM
 socket.on('updateChat', function(username, data){
     $('#conversation .wrapword').append(username + ' : ' + data + '<br>');
     var conversation = document.getElementById('conversation');
@@ -88,7 +91,7 @@ socket.on('updateUser', function(users){
 });
 
 
-
+//a way to find out an object size
 function objectSize(the_object) {
   /* function to validate the existence of each key in the object to get the number of valid keys. */
   var object_size = 0;
@@ -109,6 +112,8 @@ function sendMessage(message){
   socket.emit('message', message);
 }
 
+
+//determine the status of the peer connection
 socket.on('message', function (message){
   console.log('Client received message:', message);
   if (message === 'got user media') {
@@ -144,11 +149,11 @@ var miniVideo = document.querySelector('#miniVideo');
 var hangup = document.querySelector('#hangup');
 
 
-
+// when hangup is clicked, collect recorded file and save it to disk
 hangup.onclick = function () {
   console.log('Hanging up. hangup button worked');
 
-  ////
+///
     mRecordRTC.stopRecording();
 
     var fileName = Math.round(Math.random() * 99999999) + 99999999
@@ -198,7 +203,7 @@ var mRecordRTC = new MRecordRTC();
             };
 
 
-
+//get stream and put it to localVideo
 function handleUserMedia(stream) {
 
   console.log('Adding local stream.');
@@ -222,6 +227,7 @@ var constraints = {
   
 };
 
+
 getUserMedia(constraints, handleUserMedia, handleUserMediaError);
 
 console.log('Getting user media with constraints', constraints);
@@ -230,6 +236,8 @@ console.log('Getting user media with constraints', constraints);
 //   requestTurn('https://computeengineondemand.appspot.com/turn?username=41784574&key=4080218913');
 // }
 
+
+//open peerConnection and add stream
 function maybeStart() {
   if (!isStarted && typeof localStream != 'undefined' && isChannelReady) {
     createPeerConnection();

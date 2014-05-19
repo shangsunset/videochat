@@ -1,9 +1,8 @@
-// var Sequelize = require('./database');
 
 module.exports = function (Sequelize, db) {
 
 
-
+	//define table room
 	return db.define('Room', {
 		room_id : {type: Sequelize.INTEGER, allowNull: false, autoIncrement: true, primaryKey: true},
 		room_name: {type: Sequelize.STRING, allowNull: false},
@@ -19,7 +18,7 @@ module.exports = function (Sequelize, db) {
 
 		
 	},
-
+	//getters
 	{
 		getterMethods: {
 			session_id: function () {
@@ -35,6 +34,7 @@ module.exports = function (Sequelize, db) {
 				return this.getDataValue('end_time');
 			}
 		},
+		//setters
 		setterMethods: {
 			start_time: function (st) {
 					this.setDataValue('start_time', st);
@@ -48,7 +48,7 @@ module.exports = function (Sequelize, db) {
 
 	
 
-
+	//sync to database
 	db
 		.sync({force: true})
 		.complete(function (err) {

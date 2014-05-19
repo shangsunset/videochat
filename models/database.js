@@ -30,47 +30,18 @@ if (!global.hasOwnProperty('db')) {
     // add your other models here
   };
 
-  // sequelize
-	 //  .authenticate()
-	 //  .complete(function(err) {
-	 //    if (!!err) {
-	 //      console.log('Unable to connect to the database:', err)
-	 //    } else {
-	 //      console.log('Connection has been established successfully!')
-	 //    }
-	 //  })
+
   
-	
+//defines association of models, add foreign key
 global.db.Room.belongsTo(global.db.User, {foreignKey: 'user_created'});
-// var Sequelize = require('sequelize');
-// var db = new Sequelize('test', 'root', 'root', {
-//     dialect: "mysql", 
-//     port: 3306
 
-// })
-
+//export modules
 module.exports = global.db;
 module.exports.User = global.db.User;
 module.exports.Room = global.db.Room;
 
 }
-// var User = require('./user.js')(Sequelize, db);
-// var Room = require('./room.js')(Sequelize, db);
-// module.exports.Room = Room;
-// module.exports.User = User;
 
-
-
-// module.exports = function(){
-
-	
-	
-
-// };
-
-
-// User.hasMany(Room);
-// Room.belongsTo(User, {foreignKey: 'user_id'})
 
 
 

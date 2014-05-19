@@ -23,12 +23,7 @@ $('.textContent').keypress(function(e) {
 
 });
 
-// $('#hangup').on('click', function () {
-	
-// 	console.log('Hanging up. hangup button worked');
-// 	handleRemoteHangup()
-// 	sendMessage('bye');
-// })
+
 
 
 
