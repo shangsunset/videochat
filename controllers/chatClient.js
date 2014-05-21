@@ -154,27 +154,61 @@ hangup.onclick = function () {
   console.log('Hanging up. hangup button worked');
 
 ///
-    mRecordRTC.stopRecording();
 
-    var fileName = Math.round(Math.random() * 99999999) + 99999999
-    mRecordRTC.getDataURL(function(dataURL) {
-        var files = {
-            audio: {
-                name: fileName + '.wav',
-                type: 'audio/wav',
-                dataURL: dataURL.audio
-            },
-            video: {
-                name: fileName + '.webm',
-                type: 'video/webm',
-                dataURL: dataURL.video
-            }
-        }
-        socket.emit('videoRecorded', files)
-        remoteVideo.src = '';
-                    remoteVideo.poster = 'ajax-loader.gif';
-        
-    });
+                var fileName = Math.round(Math.random() * 99999999) + 99999999;
+
+                // stop audio recorder
+                recordAudio.stopRecording(function() {
+                    // stop video recorder
+                    recordVideo.stopRecording(function() {
+                    
+                        // get audio data-URL
+                        recordAudio.getDataURL(function(audioDataURL) {
+                        
+                            // get video data-URL
+                            recordVideo.getDataURL(function(videoDataURL) {
+                                var files = {
+                                    audio: {
+                                        name: fileName + '.wav',
+                                        type: recordAudio.getBlob().type || 'audio/wav',
+                                        dataURL: audioDataURL
+                                    },
+                                    video: {
+                                        name: fileName + '.webm',
+                                        type: recordVideo.getBlob().type || 'video/webm',
+                                        dataURL: videoDataURL
+                                    }
+                                };
+
+                                socket.emit('videoRecorded', files);
+                            });
+                            
+                        });
+                        
+                        
+                    });
+                    
+                });
+                
+                // if firefox or if you want to record only audio
+                // stop audio recorder
+                 recordAudio.stopRecording(function() {
+                    // get audio data-URL
+                    recordAudio.getDataURL(function(audioDataURL) {
+                        var files = {
+                            audio: {
+                                name: fileName + '.wav',
+                                type: recordAudio.getBlob().type || 'audio/wav',
+                                dataURL: audioDataURL
+                            }
+                        };
+                        
+
+                        socket.emit('videoRecorded', files);
+                     });
+                        
+                   
+                 });
   ////
 
   handleRemoteHangup()
@@ -182,25 +216,31 @@ hangup.onclick = function () {
 }
 
 socket.on('merged', function(fileName) {
-	console.log(location.href + '/uploads/' + fileName);	
-   remoteVideo.src = location.href + '/uploads/' + fileName;
-                remoteVideo.play();
-		
-    });
-
-var mRecordRTC = new MRecordRTC();
-
-            mRecordRTC.mediaType = {
+                var href = (location.href.split('/').pop().length 
+                        ? location.href.replace( location.href.split('/').pop(), '' ) 
+                        : location.href
+                    );
+                    
+                href = href + '/uploads/' + fileName;
+                    
+                console.log('got file ' + href);
                 
-                video: true,
-                audio: true
-            };
-
-            mRecordRTC.bufferSize = 16384;
-            mRecordRTC.canvas = {
-                width: innerWidth,
-                height: innerHeight
-            };
+                
+            });
+            
+            socket.on('ffmpeg-output', function(result) {
+                if(parseInt(result) >= 100) {
+                    progressBar.parentNode.style.display = 'none';
+                    return;
+                }
+                progressBar.parentNode.style.display = 'block';
+                progressBar.value = result;
+                percentage.innerHTML = 'Ffmpeg Progress ' + result + "%";
+            });
+            
+            socket.on('ffmpeg-error', function(error) {
+                alert(error);
+            });
 
 
 //get stream and put it to localVideo
@@ -287,19 +327,29 @@ function handleIceCandidate(event) {
   }
 }
 
+var recordAudio, recordVideo;
 
 function handleRemoteStreamAdded(event) {
   console.log('Remote stream added.');
   remoteVideo.src = window.URL.createObjectURL(event.stream);
   remoteStream = event.stream;
-
-  mRecordRTC.addStream(remoteStream);
-  mRecordRTC.startRecording();
-
   miniVideo.src = localVideo.src;
   localVideo.src = remoteVideo.src;
   $('#remoteVideo').remove();
+ 
 
+  recordAudio = RecordRTC(event.stream, {
+      onAudioProcessStarted: function() {
+         recordVideo.startRecording();         
+          
+      }
+  });
+
+   recordVideo = RecordRTC(event.stream, {
+      type: 'video'
+  });
+
+  recordAudio.startRecording();
 
 }
 

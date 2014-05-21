@@ -26,9 +26,6 @@ $('.textContent').keypress(function(e) {
 
 
 
-
-
-
 });
 
 
